@@ -13,6 +13,8 @@ const Header = () => {
       }
     } else if (item?.toLowerCase() === "github") {
       window.open("https://github.com/harneetlang/");
+    } else if (item === "Complete examples") {
+      window.open("https://github.com/harneetlang/real_world_examples");
     } else {
       window.open("http://docs.harneetlang.com");
     }
@@ -34,7 +36,7 @@ const Header = () => {
             Harneet
           </motion.div>
           <div className="hidden md:flex items-center space-x-6">
-            {["Features", "Docs"].map((item) => (
+            {["Features", "Docs", "Complete examples"].map((item) => (
               <button
                 key={item}
                 onClick={() => handleNavClick(item)}
