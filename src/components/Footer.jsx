@@ -1,14 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github } from "lucide-react";
 import { toast } from "../ui/use-toast";
 
 const Footer = () => {
   const handleLinkClick = (item) => {
-    toast({
-      description:
-        "🚧 This feature isn't implemented yet!. We are currently working on this! Please expect an update soon! 🚀",
-    });
+    window.open("https://github.com/harneetlang/");
   };
 
   return (
@@ -22,8 +19,11 @@ const Footer = () => {
         >
           <div className="flex flex-col items-center">
             <p className="text-gray-400 mt-4 text-center">
-              The programming language you'll enjoy using. Built for modern
-              software teams.
+              🎊 Harneet gives you 80% of Haskell's functional programming
+              benefits with 50% of the complexity! It offers Haskell's
+              functional programming power without the steep learning curve,
+              adds imperative programming flexibility, and maintains the
+              benefits of type safety.
             </p>
             <div className="flex space-x-4 mt-6">
               {[{ icon: Github, label: "GitHub" }].map(

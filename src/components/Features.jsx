@@ -1,6 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Zap, Target, SmileIcon, BicepsFlexedIcon, BugIcon, PartyPopperIcon, LandmarkIcon } from "lucide-react";
+import {
+  Zap,
+  Target,
+  SmileIcon,
+  BicepsFlexedIcon,
+  BugIcon,
+  PartyPopperIcon,
+  LandmarkIcon,
+} from "lucide-react";
 
 const Features = () => {
   const features = [
@@ -23,9 +31,14 @@ const Features = () => {
     },
     {
       icon: BicepsFlexedIcon,
-      title: "More Features",
-      description:
-        "More features coming shortly",
+      title: "Functional Programming",
+      description: [
+        "→ Strong static typing for functions",
+        "→ First-class function support",
+        "→ Higher-order function capabilities",
+        "→ Function composition and chaining",
+        "→ Type-safe functional programming",
+      ],
     },
   ];
 
@@ -69,9 +82,17 @@ const Features = () => {
                   <feature.icon className="h-6 w-6 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {feature.description}
-                </p>
+                {Array.isArray(feature.description) ? (
+                  <ul>
+                    {feature.description.map((item, index) => (
+                      <li key={index} className="text-gray-400 leading-relaxed">{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                )}
               </div>
             </motion.div>
           ))}

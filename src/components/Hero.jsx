@@ -2,16 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import { toast } from "../ui/use-toast";
 import upandawaySVG from "../assets/upandaway.svg";
 
 const Hero = () => {
-  const handleButtonClick = (action) => {
-    toast({
-      description:
-        "🚧 This feature isn't implemented yet!. We are currently working on this! Please expect an update soon! 🚀",
-    });
+  const handleButtonClick = () => {
+    window.open("http://docs.harneetlang.com")
   };
+
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
@@ -64,7 +61,7 @@ const Hero = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
         >
           <Button
-            onClick={() => handleButtonClick("Get started")}
+            onClick={() => handleButtonClick()}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg group"
           >
             Get started

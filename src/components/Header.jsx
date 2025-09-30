@@ -1,25 +1,25 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '../ui/button';
-import { toast } from '../ui/use-toast';
-import { Github } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
+import { Github } from "lucide-react";
 
 const Header = () => {
   const handleNavClick = (item) => {
-    if (item === 'Features') {
-      const featuresSection = document.getElementById('features');
+    if (item === "Features") {
+      const featuresSection = document.getElementById("features");
       if (featuresSection) {
-        featuresSection.scrollIntoView({ behavior: 'smooth' });
+        featuresSection.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (item?.toLowerCase() === "github") {
+      window.open("https://github.com/harneetlang/");
     } else {
-      toast({
-        description: "🚧 This feature isn't implemented yet!. We are currently working on this! Please expect an update soon! 🚀"
-      });
+      window.open("http://docs.harneetlang.com");
     }
   };
 
   return (
-    <motion.header 
+    <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -27,14 +27,14 @@ const Header = () => {
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-8">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05 }}
             className="text-xl font-semibold"
           >
             Harneet
           </motion.div>
           <div className="hidden md:flex items-center space-x-6">
-            {['Features', 'Docs'].map((item) => (
+            {["Features", "Docs"].map((item) => (
               <button
                 key={item}
                 onClick={() => handleNavClick(item)}
@@ -46,8 +46,8 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center space-x-4">
-          <Button 
-            onClick={() => handleNavClick('GitHub')}
+          <Button
+            onClick={() => handleNavClick("GitHub")}
             className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             <Github className="mr-2 h-4 w-4" />
