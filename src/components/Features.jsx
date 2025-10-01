@@ -8,6 +8,7 @@ import {
   BugIcon,
   PartyPopperIcon,
   LandmarkIcon,
+  Code2Icon,
 } from "lucide-react";
 
 const Features = () => {
@@ -54,6 +55,27 @@ const Features = () => {
         "Higher-order function capabilities",
         "Function composition and chaining",
         "Type-safe functional programming"
+      ],
+    },
+    {
+      icon: Zap,
+      title: "Type Safety Meets Flexibility",
+      description: [
+        "Strict, compile-time type checking",
+        "`any` type for controlled flexibility",
+        "Zero-cost abstractions",
+        "Built for real-world applications"
+      ],
+    },
+    {
+      icon: Code2Icon,
+      title: "Build Modular, Maintainable Code with Ease",
+      description: [
+        "Go-Like Imports - Familiar syntax with modern twists",
+        "Relative Imports - `import \"../mylib\" as mylib`",
+        "Package Management - Built-in support for local packages",
+        "Structured Projects - Clear project organization",
+        "Module Aliasing - Avoid naming conflicts"
       ],
     },
   ];
@@ -104,7 +126,7 @@ const Features = () => {
                   {Array.isArray(feature.description) ? (
                     <ul className="space-y-3">
                       {feature.description.map((item, index) => (
-                        <li key={index} className="text-gray-200 text-sm leading-relaxed flex items-start">
+                        <li key={index} className="text-gray-400 text-feature leading-relaxed flex items-start">
                           <span className="text-blue-400 mr-3 mt-1 font-bold">•</span>
                           <span className="flex-1 font-medium">{item.replace('→', '').trim()}</span>
                         </li>
