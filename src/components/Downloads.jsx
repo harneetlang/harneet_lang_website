@@ -31,18 +31,24 @@ const Downloads = () => {
   };
 
   return (
-    <div className="pt-24 pb-16 px-6 max-w-7xl mx-auto">
-      <motion.div
+    <div className="pt-28 pb-20 px-8 max-w-7xl mx-auto text-lg">
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-12"
+        className="text-center mb-16 relative"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-          Get Harneet
-        </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Choose your preferred method to get started with Harneet
+        <div className="relative inline-block">
+          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur opacity-75"></div>
+          <h1 className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            Get Harneet
+          </h1>
+        </div>
+        <p className="mt-8 text-xl text-gray-300 max-w-3xl mx-auto relative">
+          <span className="relative z-10 bg-gradient-to-r from-gray-200 to-gray-300 bg-clip-text text-transparent">
+            Choose your preferred method to get started with Harneet
+          </span>
+          <span className="absolute -bottom-1 left-1/2 w-24 h-0.5 bg-gradient-to-r from-blue-500/0 via-blue-500 to-blue-500/0 -translate-x-1/2"></span>
         </p>
       </motion.div>
 
@@ -92,21 +98,22 @@ const Downloads = () => {
                   <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-gray-800 text-gray-300">
                     {release.version}
                   </span>
-                  <p className="text-sm text-gray-500 mt-1">Released on {release.date}</p>
                 </div>
               </div>
             </div>
             <div className="divide-y divide-gray-800">
               {release.downloads.map((dl, idx) => (
-                <div key={idx} className="p-4 hover:bg-gray-800/50 transition-colors duration-200 cursor-pointer">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                    <div className="flex items-center space-x-4">
+                <div className="p-6 hover:bg-gray-800/50 transition-colors duration-200 cursor-pointer rounded-lg">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                    <div className="flex items-center space-x-6">
                       <div className="p-2 rounded-lg bg-gray-800/50">
-                        <Download className="h-5 w-5 text-purple-400" />
+                        <Download className="h-6 w-6 text-purple-400" />
                       </div>
                       <div>
-                        <p className="font-medium text-white">{dl.os} ({dl.arch})</p>
-                        <p className="text-sm text-gray-400">.{dl.ext} • {dl.size}</p>
+                        <div>
+                          <p className="font-medium text-white text-lg">{dl.os} ({dl.arch})</p>
+                          <p className="text-gray-400">.{dl.ext} • {dl.size}</p>
+                        </div>
                       </div>
                     </div>
                     <ModernButton

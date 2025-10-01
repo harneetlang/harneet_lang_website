@@ -44,7 +44,7 @@ const Header = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800/50"
     >
-      <nav className="max-w-4xl mx-auto px-4 py-3">
+      <nav className="max-w-6xl mx-auto px-6 py-3 w-full">
         <div className="flex items-center justify-between space-x-4 md:space-x-8">
           <Link to="/">
             <motion.div
