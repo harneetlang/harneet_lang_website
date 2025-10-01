@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { Download, Github, Code, Terminal, Package, GitBranch } from 'lucide-react';
+import { Download, Github, Code, Terminal, Package, GitBranch, FileText } from 'lucide-react';
+import ModernButton from './ui/ModernButton';
 
 const Downloads = () => {
   const [activeTab, setActiveTab] = useState('binaries');
@@ -37,7 +38,7 @@ const Downloads = () => {
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
           Get Harneet
         </h1>
         <p className="text-gray-400 max-w-2xl mx-auto">
@@ -46,33 +47,25 @@ const Downloads = () => {
       </motion.div>
 
       <div className="flex justify-center mb-12">
-        <div className="inline-flex rounded-lg border border-gray-800 bg-gray-900 p-1">
-          <button
+        <div className="inline-flex rounded-lg bg-gray-900 p-1 border border-gray-800">
+          <ModernButton
             onClick={() => setActiveTab('binaries')}
-            className={`px-6 py-2 rounded-md font-medium transition-colors ${
-              activeTab === 'binaries'
-                ? 'bg-gray-800 text-white'
-                : 'text-gray-400 hover:text-white'
-            }`}
+            variant={activeTab === 'binaries' ? 'primary' : 'ghost'}
+            size="md"
+            icon={Package}
+            className={`px-6 ${activeTab !== 'binaries' ? '!bg-transparent hover:!bg-gray-800' : ''}`}
           >
-            <div className="flex items-center space-x-2">
-              <Package className="h-4 w-4" />
-              <span>Pre-built Binaries</span>
-            </div>
-          </button>
-          <button
+            Pre-built Binaries
+          </ModernButton>
+          <ModernButton
             onClick={() => setActiveTab('source')}
-            className={`px-6 py-2 rounded-md font-medium transition-colors ${
-              activeTab === 'source'
-                ? 'bg-gray-800 text-white'
-                : 'text-gray-400 hover:text-white'
-            }`}
+            variant={activeTab === 'source' ? 'primary' : 'ghost'}
+            size="md"
+            icon={Code}
+            className={`px-6 ${activeTab !== 'source' ? '!bg-transparent hover:!bg-gray-800' : ''}`}
           >
-            <div className="flex items-center space-x-2">
-              <Code className="h-4 w-4" />
-              <span>Build from Source</span>
-            </div>
-          </button>
+            Build from Source
+          </ModernButton>
         </div>
       </div>
 
@@ -105,7 +98,7 @@ const Downloads = () => {
             </div>
             <div className="divide-y divide-gray-800">
               {release.downloads.map((dl, idx) => (
-                <div key={idx} className="p-4 hover:bg-gray-800/50 transition-colors duration-200">
+                <div key={idx} className="p-4 hover:bg-gray-800/50 transition-colors duration-200 cursor-pointer">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="p-2 rounded-lg bg-gray-800/50">
@@ -116,14 +109,18 @@ const Downloads = () => {
                         <p className="text-sm text-gray-400">.{dl.ext} • {dl.size}</p>
                       </div>
                     </div>
-                    <a
+                    <ModernButton
+                      as="a"
                       href={getDownloadUrl(dl.os.toLowerCase(), release.version)}
-                      className="mt-3 sm:mt-0 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium hover:opacity-90 transition-opacity duration-200"
+                      variant="primary"
+                      size="sm"
+                      icon={Download}
+                      className="mt-3 sm:mt-0"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       Download
-                    </a>
+                    </ModernButton>
                   </div>
                 </div>
               ))}
@@ -178,14 +175,17 @@ const Downloads = () => {
                     Harneet is written in Go. Install the latest stable version from the official website.
                   </p>
                   <div className="mt-2 bg-gray-800/50 p-4 rounded-lg">
-                    <a 
-                      href="https://golang.org/dl/" 
-                      target="_blank" 
+                    <ModernButton
+                      as="a"
+                      href="https://golang.org/dl/"
+                      variant="secondary"
+                      size="sm"
+                      className="!bg-gray-800 !text-blue-400 hover:!bg-gray-700"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-blue-400 hover:text-blue-300 text-sm"
                     >
                       Download Go from golang.org
-                    </a>
+                    </ModernButton>
                   </div>
                 </div>
               </div>
@@ -400,17 +400,18 @@ const Downloads = () => {
             Check out our documentation.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a
+            <ModernButton
+              as="a"
               href="https://docs.harneetlang.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-white font-medium transition-colors duration-200 relative z-10"
+              variant="secondary"
+              size="md"
+              icon={FileText}
+              className="relative z-10"
             >
-              <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
               View Documentation
-            </a>
+            </ModernButton>
           </div>
         </div>
       </motion.div>

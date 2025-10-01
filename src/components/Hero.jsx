@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import ModernButton from "./ui/ModernButton";
 import upandawaySVG from "../assets/upandaway.svg";
 
 const Hero = () => {
@@ -60,13 +60,15 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
         >
-          <Button
-            onClick={() => handleButtonClick()}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg group"
+          <ModernButton
+            onClick={handleButtonClick}
+            size="lg"
+            variant="primary"
+            className="group px-8 py-3 text-lg"
           >
             Get started
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          </ModernButton>
         </motion.div>
 
         <motion.div

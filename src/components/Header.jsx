@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import { Github, Download } from "lucide-react";
+import ModernButton from "./ui/ModernButton";
 
 const Header = () => {
   const handleNavClick = (item, e) => {
@@ -78,13 +78,14 @@ const Header = () => {
           </div>
           
           <div className="flex-shrink-0">
-            <Button
+            <ModernButton
               onClick={() => handleNavClick("GitHub")}
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base whitespace-nowrap"
+              icon={Github}
+              size="md"
+              variant="primary"
             >
-              <Github className="mr-2 h-4 w-4" />
               GitHub
-            </Button>
+            </ModernButton>
           </div>
         </div>
       </nav>
