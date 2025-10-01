@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { Download, Github, Code, Terminal, Package, GitBranch, FileText } from 'lucide-react';
+import { Download, Github, Code, Terminal, Package, GitBranch, FileText, ExternalLinkIcon } from 'lucide-react';
 import Button from './ui/Button';
 import {toast} from "../ui/use-toast"
 
@@ -164,7 +164,9 @@ const Downloads = () => {
                 <div>
                   <h3 className="font-medium text-white">1. Install Just</h3>
                   <p className="text-gray-400 text-sm">
-                    Just is a command runner that we use for builds and tests (similar to Make).
+                    Just is a command runner that we use for builds and tests (similar to Make). For more on Just please see the official just document at the following link -  
+                    <a href="https://just.systems/man/en/" className='relative text-blue-600 font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:transition-all after:duration-300 hover:after:w-full hover:text-purple-600'> the official Just documentation. <ExternalLinkIcon className="inline w-4 h-4" /> </a>
+
                   </p>
                   <div className="mt-2 bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
                     <pre className="text-sm text-gray-300">
@@ -173,6 +175,8 @@ const Downloads = () => {
                       <code className="block mt-2"># Linux (using your package manager)</code>
                       <code className="block"># For Debian/Ubuntu: sudo apt install just</code>
                       <code className="block"># For Fedora: sudo dnf install just</code>
+                      <code className='block mt-2'># Curl</code>
+                      <code className='block'>curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to DEST </code>
                     </pre>
                   </div>
                 </div>
@@ -189,8 +193,7 @@ const Downloads = () => {
                   </p>
                   <div className="mt-2 bg-gray-800/50 p-4 rounded-lg">
                     <Button
-                      as="a"
-                      href="https://golang.org/dl/"
+                      onClick= {()=> window.open("https://golang.org/dl/")}
                       variant="secondary"
                       size="sm"
                       className="!bg-gray-800 !text-blue-400 hover:!bg-gray-700"
@@ -208,9 +211,9 @@ const Downloads = () => {
                   <Package className="h-5 w-5 text-green-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-white">3. Install Goreleaser (Optional)</h3>
+                  <h3 className="font-medium text-white">3. Install Goreleaser (Optional, but recommended!)</h3>
                   <p className="text-gray-400 text-sm">
-                    Required if you plan to build release binaries.
+                    Required if you plan to build release binaries. Also required to run the examples in an easy fashion! For more information on GoReleaser, please see <a href="https://goreleaser.com/quick-start/" className='relative text-blue-600 font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:transition-all after:duration-300 hover:after:w-full hover:text-purple-600'> official GoReleaser documentation. <ExternalLinkIcon className="inline w-4 h-4" /> </a>
                   </p>
                   <div className="mt-2 bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
                     <pre className="text-sm text-gray-300">
@@ -282,6 +285,16 @@ const Downloads = () => {
                       <pre className="text-sm text-gray-300">
                         <code>just build</code>
                         <code className="block text-gray-500"># This creates the 'harneet' executable</code>
+                      </pre>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Run Examples</h4>
+                    <div className="bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
+                      <pre className="text-sm text-gray-300">
+                        <code>just test</code>
+                        <code className="block text-gray-500"># Run all the examples in the examples folder.</code>
                       </pre>
                     </div>
                   </div>
