@@ -164,7 +164,7 @@ const Downloads = () => {
                 <div>
                   <h3 className="font-medium text-white">1. Install Just</h3>
                   <p className="text-gray-400 text-sm">
-                    Just is a command runner that we use for builds and tests (similar to Make). For more on Just please see the official just document at the following link -  
+                    Just is a command runner that we use for builds and tests (similar to Make). For more on Just please see the official just documentation at the following link -  
                     <a href="https://just.systems/man/en/" className='relative text-blue-600 font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:transition-all after:duration-300 hover:after:w-full hover:text-purple-600'> the official Just documentation. <ExternalLinkIcon className="inline w-4 h-4" /> </a>
 
                   </p>
