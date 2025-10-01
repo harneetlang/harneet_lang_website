@@ -15,29 +15,45 @@ const Features = () => {
     {
       icon: PartyPopperIcon,
       title: "Built for easy usage",
-      description:
-        "Harneet is easier to learn and build with. Harneet has syntax similar to Golang",
+      description: [
+        "Intuitive syntax similar to Golang",
+        "Minimal learning curve for developers",
+        "Clear and readable code structure",
+        "Comprehensive documentation and examples",
+        "Built-in development tools"
+      ],
     },
     {
       icon: LandmarkIcon,
-      title: "Stdlib",
-      description: "Very fluent and comprehensive standard library",
+      title: "Standard Library",
+      description: [
+        "Rich set of built-in packages",
+        "File I/O and system operations",
+        "Networking and HTTP clients/servers",
+        "Data serialization (JSON, YAML, etc.)",
+        "Concurrent programming support"
+      ],
     },
     {
       icon: BugIcon,
-      title: "Errors and Asserts",
-      description:
-        "Harneet does not swallow errors! You are the master of your own errors. ",
+      title: "Error Handling",
+      description: [
+        "Explicit error handling model",
+        "Custom error types and assertions",
+        "Stack traces and debugging support",
+        "Panic and recover mechanisms",
+        "Comprehensive error messages"
+      ],
     },
     {
       icon: BicepsFlexedIcon,
       title: "Functional Programming",
       description: [
-        "→ Strong static typing for functions",
-        "→ First-class function support",
-        "→ Higher-order function capabilities",
-        "→ Function composition and chaining",
-        "→ Type-safe functional programming",
+        "Strong static typing for functions",
+        "First-class function support",
+        "Higher-order function capabilities",
+        "Function composition and chaining",
+        "Type-safe functional programming"
       ],
     },
   ];
@@ -77,22 +93,29 @@ const Features = () => {
               whileHover={{ y: -5 }}
               className="group"
             >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6 h-full hover:border-gray-700 transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
-                  <feature.icon className="h-6 w-6 text-blue-400" />
+              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-lg p-6 h-full hover:border-gray-700 transition-all duration-300 flex flex-col">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
+                    <feature.icon className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                {Array.isArray(feature.description) ? (
-                  <ul>
-                    {feature.description.map((item, index) => (
-                      <li key={index} className="text-gray-400 leading-relaxed">{item}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-400 leading-relaxed">
-                    {feature.description}
-                  </p>
-                )}
+                <div className="flex-grow">
+                  {Array.isArray(feature.description) ? (
+                    <ul className="space-y-2">
+                      {feature.description.map((item, index) => (
+                        <li key={index} className="text-gray-400 text-sm leading-relaxed flex items-start">
+                          <span className="text-blue-400 mr-2">•</span>
+                          <span>{item.replace('→', '').trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-400 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}

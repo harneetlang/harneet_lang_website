@@ -1,22 +1,39 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { Github } from "lucide-react";
+import { Github, Download } from "lucide-react";
 
 const Header = () => {
-  const handleNavClick = (item) => {
-    if (item === "Features") {
-      const featuresSection = document.getElementById("features");
-      if (featuresSection) {
-        featuresSection.scrollIntoView({ behavior: "smooth" });
-      }
-    } else if (item?.toLowerCase() === "github") {
+  const handleNavClick = (item, e) => {
+    e.preventDefault();
+    
+    if (item?.toLowerCase() === "github") {
       window.open("https://github.com/harneetlang/");
+      return;
     } else if (item === "Complete examples") {
       window.open("https://github.com/harneetlang/real_world_examples");
-    } else {
+      return;
+    } else if (item === "Docs") {
       window.open("http://docs.harneetlang.com");
+      return;
+    }
+    
+    // Handle Features navigation
+    if (item === "Features") {
+      // If we're already on the home page, just scroll to features
+      if (window.location.pathname === '/') {
+        const featuresSection = document.getElementById("features");
+        if (featuresSection) {
+          featuresSection.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // If we're on another page, navigate to home first, then scroll
+        window.location.href = '/';
+        // The actual scroll will be handled by a useEffect in the Home component
+        // that checks for a hash in the URL
+      }
     }
   };
 
@@ -27,38 +44,51 @@ const Header = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800/50"
     >
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-8">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-xl font-semibold"
-          >
-            Harneet
-          </motion.div>
-          <div className="hidden md:flex items-center space-x-6">
-            {["Features", "Docs", "Complete examples"].map((item) => (
-              <button
-                key={item}
-                onClick={() => handleNavClick(item)}
-                className="text-gray-400 hover:text-white transition-colors duration-200"
+      <nav className="max-w-4xl mx-auto px-4 py-3">
+        <div className="flex items-center justify-between space-x-4 md:space-x-8">
+          <Link to="/">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-xl font-semibold hover:text-white transition-colors whitespace-nowrap"
+            >
+              Harneet
+            </motion.div>
+          </Link>
+          
+          <div className="flex-1 flex items-center justify-center">
+            <div className="flex flex-wrap justify-center items-center space-x-3 sm:space-x-6">
+              {["Features", "Docs", "Complete examples"].map((item) => (
+                <Link
+                  key={item}
+                  to={item === "Features" ? "/#features" : "#"}
+                  onClick={(e) => handleNavClick(item, e)}
+                  className="text-gray-400 hover:text-white transition-colors duration-200 px-1 py-1 text-sm sm:text-base whitespace-nowrap"
+                >
+                  {item}
+                </Link>
+              ))}
+              <Link
+                to="/downloads"
+                className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center px-1 py-1 text-sm sm:text-base whitespace-nowrap"
               >
-                {item}
-              </button>
-            ))}
+                <Download className="h-4 w-4 mr-1" />
+                Downloads
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button
-            onClick={() => handleNavClick("GitHub")}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            <Github className="mr-2 h-4 w-4" />
-            GitHub
-          </Button>
+          
+          <div className="flex-shrink-0">
+            <Button
+              onClick={() => handleNavClick("GitHub")}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base whitespace-nowrap"
+            >
+              <Github className="mr-2 h-4 w-4" />
+              GitHub
+            </Button>
+          </div>
         </div>
       </nav>
     </motion.header>
   );
 };
-
 export default Header;
