@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { toast } from "../ui/use-toast";
 import { Github, Download } from "lucide-react";
-import ModernButton from "./ui/ModernButton";
+import Button from "./ui/Button";
 
 const Header = () => {
   const handleNavClick = (item, e) => {
@@ -78,14 +78,14 @@ const Header = () => {
           </div>
           
           <div className="flex-shrink-0">
-            <ModernButton
+            <Button
               onClick={() => handleNavClick("GitHub")}
               icon={Github}
               size="md"
               variant="primary"
             >
               GitHub
-            </ModernButton>
+            </Button>
           </div>
         </div>
       </nav>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const ModernButton = ({
+const Button = ({
   children,
   variant = 'primary',
   size = 'md',
@@ -57,4 +57,4 @@ const ModernButton = ({
   );
 };
 
-export default ModernButton;
+export default Button;

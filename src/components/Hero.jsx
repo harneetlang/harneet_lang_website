@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
-import ModernButton from "./ui/ModernButton";
+import Button from "./ui/Button";
 import upandawaySVG from "../assets/upandaway.svg";
 
 const Hero = () => {
@@ -39,8 +39,8 @@ const Hero = () => {
         >
           The programming language{" "}
           <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            you'll enjoy using
-          </span>
+            you'll enjoy using 
+          </span> <span>🎉</span>
         </motion.h1>
 
         <motion.p
@@ -60,7 +60,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
         >
-          <ModernButton
+          <Button
             onClick={handleButtonClick}
             size="lg"
             variant="primary"
@@ -68,7 +68,7 @@ const Hero = () => {
           >
             Get started
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </ModernButton>
+          </Button>
         </motion.div>
 
         <motion.div

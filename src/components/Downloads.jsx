@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Download, Github, Code, Terminal, Package, GitBranch, FileText } from 'lucide-react';
-import ModernButton from './ui/ModernButton';
+import Button from './ui/Button';
+import {toast} from "../ui/use-toast"
 
 const Downloads = () => {
   const [activeTab, setActiveTab] = useState('binaries');
@@ -23,6 +24,10 @@ const Downloads = () => {
   ];
 
   const getDownloadUrl = (os, version) => {
+    toast({
+      description:"Thanks for expressing interest!. We are still creating final builds. These links will start working shortly. Apologies for the inconvenience caused!"
+    })
+    return
     const baseUrl = 'https://github.com/harneetlang/harneet/releases';
     if (version === 'nightly') {
       return `${baseUrl}/nightly`;
@@ -54,7 +59,7 @@ const Downloads = () => {
 
       <div className="flex justify-center mb-12">
         <div className="inline-flex rounded-lg bg-gray-900 p-1 border border-gray-800">
-          <ModernButton
+          <Button
             onClick={() => setActiveTab('binaries')}
             variant={activeTab === 'binaries' ? 'primary' : 'ghost'}
             size="md"
@@ -62,8 +67,8 @@ const Downloads = () => {
             className={`px-6 ${activeTab !== 'binaries' ? '!bg-transparent hover:!bg-gray-800' : ''}`}
           >
             Pre-built Binaries
-          </ModernButton>
-          <ModernButton
+          </Button>
+          <Button
             onClick={() => setActiveTab('source')}
             variant={activeTab === 'source' ? 'primary' : 'ghost'}
             size="md"
@@ -71,7 +76,7 @@ const Downloads = () => {
             className={`px-6 ${activeTab !== 'source' ? '!bg-transparent hover:!bg-gray-800' : ''}`}
           >
             Build from Source
-          </ModernButton>
+          </Button>
         </div>
       </div>
 
@@ -116,18 +121,19 @@ const Downloads = () => {
                         </div>
                       </div>
                     </div>
-                    <ModernButton
+                    <Button
                       as="a"
-                      href={getDownloadUrl(dl.os.toLowerCase(), release.version)}
+                      onClick={()=>getDownloadUrl(dl.os.toLowerCase(), release.version)}
                       variant="primary"
                       size="sm"
                       icon={Download}
                       className="mt-3 sm:mt-0"
                       target="_blank"
                       rel="noopener noreferrer"
+                      key={idx}
                     >
                       Download
-                    </ModernButton>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -182,7 +188,7 @@ const Downloads = () => {
                     Harneet is written in Go. Install the latest stable version from the official website.
                   </p>
                   <div className="mt-2 bg-gray-800/50 p-4 rounded-lg">
-                    <ModernButton
+                    <Button
                       as="a"
                       href="https://golang.org/dl/"
                       variant="secondary"
@@ -192,7 +198,7 @@ const Downloads = () => {
                       rel="noopener noreferrer"
                     >
                       Download Go from golang.org
-                    </ModernButton>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -407,18 +413,15 @@ const Downloads = () => {
             Check out our documentation.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <ModernButton
-              as="a"
-              href="https://docs.harneetlang.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Button
+              onClick={() => window.open('https://docs.harneetlang.com', '_blank', 'noopener,noreferrer')}
               variant="secondary"
               size="md"
               icon={FileText}
               className="relative z-10"
             >
               View Documentation
-            </ModernButton>
+            </Button>
           </div>
         </div>
       </motion.div>
