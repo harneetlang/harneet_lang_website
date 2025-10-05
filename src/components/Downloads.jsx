@@ -44,7 +44,6 @@ const Downloads = () => {
         className="text-center mb-16 relative"
       >
         <div className="relative inline-block">
-          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur opacity-75"></div>
           <h1 className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
             Get Harneet
           </h1>
