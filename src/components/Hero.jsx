@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import Button from "./ui/Button";
-import upandawaySVG from "../assets/upandaway.svg";
+// Removed upandaway SVG import - replaced with YouTube video
 
 const Hero = () => {
   const handleButtonClick = () => {
@@ -77,13 +77,18 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.6 }}
           className="relative"
         >
-          <div className="relative ">
-            <div className="absolute inset-0 "></div>
-            <img
-              className="w-full h-auto relative z-10"
-              alt="Programming made simple"
-              src={upandawaySVG}
-            />
+          <div className="relative max-w-4xl mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur-xl"></div>
+            <div className="relative z-10 aspect-video rounded-lg overflow-hidden shadow-2xl">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/Y7kYZ9uZNZs"
+                title="Harneet Programming Language Demo"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
 
           {/* Floating elements */}

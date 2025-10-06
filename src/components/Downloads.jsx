@@ -45,7 +45,7 @@ const Downloads = () => {
       >
         <div className="relative inline-block">
           <h1 className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-            Get Harneet
+            <code>get</code> Harneet
           </h1>
         </div>
         <p className="mt-8 text-xl text-gray-300 max-w-3xl mx-auto relative">
