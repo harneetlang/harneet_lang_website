@@ -55,8 +55,8 @@ const Header = () => {
             </motion.div>
           </Link>
           
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex flex-wrap justify-center items-center space-x-3 sm:space-x-6">
+          <div className="flex-1 flex items-center justify-center overflow-x-auto">
+            <div className="flex flex-wrap justify-center items-center gap-x-3 sm:gap-x-6 px-2">
               {["Features", "Docs", "Complete examples"].map((item) => (
                 <Link
                   key={item}
@@ -73,6 +73,16 @@ const Header = () => {
               >
                 <Download className="h-4 w-4 mr-1" />
                 Downloads
+              </Link>
+              <Link
+                to="/videos"
+                className="text-gray-400 hover:text-purple-400 transition-colors duration-200 px-1 py-1 text-sm sm:text-base whitespace-nowrap flex items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                  <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+                Video Tuorials
               </Link>
             </div>
           </div>
