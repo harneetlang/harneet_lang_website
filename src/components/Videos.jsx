@@ -14,9 +14,9 @@ const Videos = () => {
   // Video data - you can modify this as needed
   const videoCategories = [
     { id: "all", name: "All Videos" },
-    { id: "tutorials", name: "Tutorials" },
-    { id: "talks", name: "Talks & Presentations" },
-    { id: "showcase", name: "Showcase" },
+    { id: "functions", name: "Functions" },
+    { id: "db", name: "Databases" },
+    { id: "file", name: "Files and Folders" },
   ];
 
   const generateImage = (youtubeID) => {
@@ -42,9 +42,9 @@ const Videos = () => {
       id: 2,
       title: "Arrow functions",
       description: "Arrow functions in Harneet",
-      category: "tutorials",
-      thumbnail: generateImage("25T0cfMcmOE"),
-      videoId: "25T0cfMcmOE",
+      category: "functions",
+      thumbnail: generateImage("qqWtU8cG4o8"),
+      videoId: "qqWtU8cG4o8",
       duration: "3:23",
       date: "2025-10-07",
     },
