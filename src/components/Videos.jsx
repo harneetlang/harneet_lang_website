@@ -54,7 +54,7 @@ const Videos = () => {
       description: "Harneet's REPL",
       category: "repl",
       thumbnail: ReplImage,
-      videoId: "dQw4w9WgXcQ",
+      videoId: "BuhLKp3Bp1Y",
       duration: "45:20",
       date: "2024-09-15",
     },
