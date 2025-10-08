@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Youtube, X } from "lucide-react";
 import Button from "./ui/Button";
+import ArrowFunctions from "../assets/thumbnails/arrow_functions.png";
+import ReplImage from "../assets/thumbnails/repl.png";
+import NestedFunctions from "../assets/thumbnails/nested_functions.png"
+import FunctionComposition from "../assets/thumbnails/function_composition.png"
+import DB from "../assets/thumbnails/db.png"
+import OS from "../assets/thumbnails/OS.png"
+import Webserver from "../assets/thumbnails/webserver.png"
 
 const Videos = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -16,15 +23,8 @@ const Videos = () => {
     { id: "all", name: "All Videos" },
     { id: "functions", name: "Functions" },
     { id: "db", name: "Databases" },
-    { id: "file", name: "Files and Folders" },
+    { id: "repl", name: "Repl" },
   ];
-
-  const generateImage = (youtubeID) => {
-    const generatedImage =  `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`
-
-    console.log("Generated Image → " +generatedImage)
-    return generatedImage
-  }
 
   // https://www.youtube.com/embed/
   const videos = [
@@ -33,7 +33,7 @@ const Videos = () => {
       title: "Intro to Harneet",
       description: "Intro to Harneet",
       category: "tutorials",
-      thumbnail: generateImage("Y7kYZ9uZNZs"),
+      thumbnail: "https://img.youtube.com/vi/Y7kYZ9uZNZs/maxresdefault.jpg",
       videoId: "Y7kYZ9uZNZs", // Example YouTube video ID
       duration: "6:54",
       date: "2025-10-07",
@@ -43,67 +43,67 @@ const Videos = () => {
       title: "Arrow functions",
       description: "Arrow functions in Harneet",
       category: "functions",
-      thumbnail: generateImage("qqWtU8cG4o8"),
+      thumbnail: ArrowFunctions,
       videoId: "qqWtU8cG4o8",
       duration: "3:23",
       date: "2025-10-07",
     },
     {
       id: 3,
-      title: "Harneet at DevConf 2024",
-      description: "Keynote presentation about Harneet at DevConf 2024.",
-      category: "talks",
-      thumbnail: "https://via.placeholder.com/400x225",
+      title: "REPL",
+      description: "Harneet's REPL",
+      category: "repl",
+      thumbnail: ReplImage,
       videoId: "dQw4w9WgXcQ",
       duration: "45:20",
       date: "2024-09-15",
     },
     {
       id: 4,
-      title: "Building a Web App with Harneet",
-      description: "Step-by-step guide to building a web application.",
-      category: "showcase",
-      thumbnail: "https://via.placeholder.com/400x225",
+      title: "Nested Functions",
+      description: "Harneet has built in support for nested functions",
+      category: "functions",
+      thumbnail: NestedFunctions,
       videoId: "dQw4w9WgXcQ",
       duration: "18:45",
       date: "2024-09-20",
     },
     {
       id: 5,
-      title: "Getting Started with Harneet",
-      description: "Learn the basics of Harneet in this introductory tutorial.",
-      category: "tutorials",
-      thumbnail: "https://via.placeholder.com/400x225",
+      title: "Function Compositions",
+      description: "Combine two or more functions to create a new function",
+      category: "functions",
+      thumbnail: FunctionComposition,
       videoId: "dQw4w9WgXcQ", // Example YouTube video ID
       duration: "12:34",
       date: "2024-10-01",
     },
     {
       id: 6,
-      title: "Advanced Features Deep Dive",
-      description: "Explore advanced features and patterns in Harneet.",
+      title: "OS",
+      description: "Learn to use the OS library",
       category: "tutorials",
-      thumbnail: "https://via.placeholder.com/400x225",
+      thumbnail: OS,
       videoId: "dQw4w9WgXcQ",
       duration: "24:15",
       date: "2024-10-02",
     },
     {
       id: 7,
-      title: "Harneet at DevConf 2024",
-      description: "Keynote presentation about Harneet at DevConf 2024.",
-      category: "talks",
-      thumbnail: "https://via.placeholder.com/400x225",
+      title: "Databases",
+      description: "Build apps that interact with databaes using Harneet",
+      category: "tutorials",
+      thumbnail: DB,
       videoId: "dQw4w9WgXcQ",
       duration: "45:20",
       date: "2024-09-15",
     },
     {
       id: 8,
-      title: "Building a Web App with Harneet",
-      description: "Step-by-step guide to building a web application.",
-      category: "showcase",
-      thumbnail: "https://via.placeholder.com/400x225",
+      title: "Webserver, eh",
+      description: "Step-by-step guide to setup a Webserver.",
+      category: "tutorials",
+      thumbnail: Webserver,
       videoId: "dQw4w9WgXcQ",
       duration: "18:45",
       date: "2024-09-20",
@@ -182,6 +182,7 @@ const Videos = () => {
 
   const openVideo = (video) => {
     setSelectedVideo(video);
+    console.log(video.thumbnail)
     setIsModalOpen(true);
     document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
   };
@@ -294,6 +295,7 @@ const Videos = () => {
       {/* Video Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {currentVideos.map((video, index) => (
+
           <motion.div
             key={video.id}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
