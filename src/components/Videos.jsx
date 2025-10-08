@@ -64,7 +64,7 @@ const Videos = () => {
       description: "Harneet has built in support for nested functions",
       category: "functions",
       thumbnail: NestedFunctions,
-      videoId: "dQw4w9WgXcQ",
+      videoId: "GQBqi8mLXO8",
       duration: "18:45",
       date: "2024-09-20",
     },
