@@ -4,11 +4,11 @@ import { Play, Youtube, X } from "lucide-react";
 import Button from "./ui/Button";
 import ArrowFunctions from "../assets/thumbnails/arrow_functions.png";
 import ReplImage from "../assets/thumbnails/repl.png";
-import NestedFunctions from "../assets/thumbnails/nested_functions.png"
-import FunctionComposition from "../assets/thumbnails/function_composition.png"
-import DB from "../assets/thumbnails/db.png"
-import OS from "../assets/thumbnails/OS.png"
-import Webserver from "../assets/thumbnails/webserver.png"
+import NestedFunctions from "../assets/thumbnails/nested_functions.png";
+import FunctionComposition from "../assets/thumbnails/function_composition.png";
+import DB from "../assets/thumbnails/db.png";
+import OS from "../assets/thumbnails/OS.png";
+import Webserver from "../assets/thumbnails/webserver.png";
 
 const Videos = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -182,7 +182,7 @@ const Videos = () => {
 
   const openVideo = (video) => {
     setSelectedVideo(video);
-    console.log(video.thumbnail)
+    console.log(video.thumbnail);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
   };
@@ -295,7 +295,6 @@ const Videos = () => {
       {/* Video Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {currentVideos.map((video, index) => (
-
           <motion.div
             key={video.id}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -360,14 +359,17 @@ const Videos = () => {
                 },
               }}
             >
-              <motion.img
-                src={video.thumbnail}
-                alt={video.title}
-                className="w-full h-full object-cover"
-                initial={{ scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-              />
+              <motion.div className="iflex items-center justify-center min-h-screen">
+                <motion.img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  className="w-1/2 h-1/2 object-cover mx-auto"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                />
+              </motion.div>
+
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
                 initial={{ opacity: 0.6 }}
