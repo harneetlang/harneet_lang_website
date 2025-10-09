@@ -55,7 +55,7 @@ const Videos = () => {
       category: "repl",
       thumbnail: ReplImage,
       videoId: "BuhLKp3Bp1Y",
-      duration: "45:20",
+      duration: "1:20",
       date: "2024-09-15",
     },
     {
@@ -65,7 +65,7 @@ const Videos = () => {
       category: "functions",
       thumbnail: NestedFunctions,
       videoId: "GQBqi8mLXO8",
-      duration: "18:45",
+      duration: "2:48",
       date: "2024-09-20",
     },
     {
@@ -74,8 +74,8 @@ const Videos = () => {
       description: "Combine two or more functions to create a new function",
       category: "functions",
       thumbnail: FunctionComposition,
-      videoId: "dQw4w9WgXcQ", // Example YouTube video ID
-      duration: "12:34",
+      videoId: "qE4w-THz-xA", // Example YouTube video ID
+      duration: "6:20",
       date: "2024-10-01",
     },
     {
@@ -117,37 +117,7 @@ const Videos = () => {
       videoId: "dQw4w9WgXcQ", // Example YouTube video ID
       duration: "12:34",
       date: "2024-10-01",
-    },
-    {
-      id: 10,
-      title: "Advanced Features Deep Dive",
-      description: "Explore advanced features and patterns in Harneet.",
-      category: "tutorials",
-      thumbnail: "https://via.placeholder.com/400x225",
-      videoId: "dQw4w9WgXcQ",
-      duration: "24:15",
-      date: "2024-10-02",
-    },
-    {
-      id: 11,
-      title: "Harneet at DevConf 2024",
-      description: "Keynote presentation about Harneet at DevConf 2024.",
-      category: "talks",
-      thumbnail: "https://via.placeholder.com/400x225",
-      videoId: "dQw4w9WgXcQ",
-      duration: "45:20",
-      date: "2024-09-15",
-    },
-    {
-      id: 12,
-      title: "Building a Web App with Harneet",
-      description: "Step-by-step guide to building a web application.",
-      category: "showcase",
-      thumbnail: "https://via.placeholder.com/400x225",
-      videoId: "dQw4w9WgXcQ",
-      duration: "18:45",
-      date: "2024-09-20",
-    },
+    }
   ];
 
   const filteredVideos = videos.filter((video) => {
