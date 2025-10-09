@@ -310,6 +310,7 @@ const Videos = () => {
           >
             <motion.div
               className="relative aspect-video overflow-hidden"
+              style={{backgroundColor:"#000000"}}
               initial={{ scale: 1 }}
               animate={{
                 scale: [1, 1.01, 1],
