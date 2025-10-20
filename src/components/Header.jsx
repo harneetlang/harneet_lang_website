@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { toast } from "../ui/use-toast";
 import { Github, Download } from "lucide-react";
+import LogoMark from "../assets/logos/ha.png";
 import Button from "./ui/Button";
 
 const Header = () => {
@@ -12,11 +12,14 @@ const Header = () => {
     if (item?.toLowerCase() === "github") {
       window.open("https://github.com/harneetlang/");
       return;
-    } else if (item === "Complete examples") {
-      window.open("https://github.com/harneetlang/real_world_examples");
+    } else if (item === "Playground") {
+      window.open("https://github.com/harneetlang/playground");
       return;
     } else if (item === "Docs") {
       window.open("http://docs.harneetlang.com");
+      return;
+    } else if (item === "Complete examples") {
+      window.open("https://github.com/harneetlang/real_world_examples");
       return;
     }
     
@@ -42,50 +45,48 @@ const Header = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800/50"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-[#2c2c2e] bg-[#131315]/90 backdrop-blur-lg"
     >
-      <nav className="max-w-6xl mx-auto px-6 py-3 w-full">
+      <nav className="max-w-6xl mx-auto px-6 py-5 w-full">
         <div className="flex items-center justify-between space-x-4 md:space-x-8">
           <Link to="/">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="text-xl font-semibold hover:text-white transition-colors whitespace-nowrap"
+              className="flex items-center gap-4 text-lg font-semibold tracking-wider text-slate-100 hover:text-white transition-colors whitespace-nowrap"
             >
-              Harneet
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-md bg-[linear-gradient(135deg,#2b2b2f,#151517)] shadow-[0_18px_45px_rgba(0,0,0,0.45)]">
+                <div className="absolute inset-[1px] rounded-[6px] border border-[#3a3a3c]/70 "></div>
+                <img src={LogoMark} alt="Harneet logo" className="h-8 w-8 object-contain" />
+              </div>
+              <span className="font-mono text-base uppercase tracking-[0.5em] text-slate-400">Harneet</span>
             </motion.div>
           </Link>
-          
+
           <div className="flex-1 flex items-center justify-center">
-            <div className="flex flex-wrap justify-center items-center space-x-3 sm:space-x-6">
+            <div className="flex flex-nowrap items-center gap-x-4 sm:gap-x-6 px-2">
               {["Features", "Docs", "Complete examples"].map((item) => (
                 <Link
                   key={item}
                   to={item === "Features" ? "/#features" : "#"}
                   onClick={(e) => handleNavClick(item, e)}
-                  className="text-gray-400 hover:text-white transition-colors duration-200 px-1 py-1 text-sm sm:text-base whitespace-nowrap"
+                  className="text-[#d1d1d6] hover:text-white transition-colors duration-200 px-2.5 py-1 text-xs sm:text-sm whitespace-nowrap uppercase tracking-[0.24em] font-medium border border-transparent rounded-full hover:border-[#2c2c2e] hover:bg-[#111112]/70"
                 >
                   {item}
                 </Link>
               ))}
               <Link
                 to="/downloads"
-                className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center px-1 py-1 text-sm sm:text-base whitespace-nowrap"
+                className="text-[#d1d1d6] hover:text-white transition-colors duration-200 px-2.5 py-1 text-xs sm:text-sm whitespace-nowrap uppercase tracking-[0.24em] font-medium border border-transparent rounded-full hover:border-[#2c2c2e] hover:bg-[#111112]/70"
               >
-                <Download className="h-4 w-4 mr-1" />
                 Downloads
               </Link>
+              <Link
+                to="/videos"
+                className="text-[#d1d1d6] hover:text-white transition-colors duration-200 px-2.5 py-1 text-xs sm:text-sm whitespace-nowrap uppercase tracking-[0.24em] font-medium border border-transparent rounded-full hover:border-[#2c2c2e] hover:bg-[#111112]/70"
+              >
+                Video Tutorials
+              </Link>
             </div>
-          </div>
-          
-          <div className="flex-shrink-0">
-            <Button
-              onClick={() => handleNavClick("GitHub")}
-              icon={Github}
-              size="md"
-              variant="primary"
-            >
-              GitHub
-            </Button>
           </div>
         </div>
       </nav>

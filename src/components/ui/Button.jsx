@@ -10,13 +10,17 @@ const Button = ({
   className = '',
   ...props
 }) => {
-  const baseStyles = 'rounded-full font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 flex items-center justify-center';
-  
+  const baseStyles = 'relative flex items-center justify-center rounded-full font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#050506]';
+
   const variants = {
-    primary: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 focus:ring-blue-500 shadow-lg hover:shadow-blue-500/20',
-    secondary: 'bg-gray-800 text-gray-200 hover:bg-gray-700 focus:ring-gray-500 border border-gray-700 hover:border-gray-600',
-    accent: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 focus:ring-indigo-500 shadow-lg hover:shadow-indigo-500/20',
-    ghost: 'text-gray-300 hover:bg-gray-800 focus:ring-gray-500',
+    primary:
+      'bg-[linear-gradient(135deg,#2b2b2f,#151517)] text-[#f5f5f7] border border-[#3a3a3c]/70 shadow-[0_14px_32px_rgba(0,0,0,0.55)] hover:bg-[linear-gradient(135deg,#323236,#18181a)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.6)] active:shadow-[0_8px_20px_rgba(0,0,0,0.55)] focus:ring-[#303034]',
+    secondary:
+      'bg-[#1c1c1e] text-[#d1d1d6] border border-[#2c2c2e] shadow-[0_8px_18px_rgba(0,0,0,0.35)] hover:bg-[#2c2c2e] hover:text-[#f2f2f7] focus:ring-[#3a3a3c]',
+    accent:
+      'bg-[linear-gradient(135deg,#4f46e5,#7c3aed)] text-white shadow-[0_14px_32px_rgba(76,29,149,0.45)] hover:bg-[linear-gradient(135deg,#5b51f0,#8750f5)] focus:ring-[#5b51f0]',
+    ghost:
+      'text-[#8e8e93] border border-transparent hover:border-[#2c2c2e] hover:bg-[#1a1a1c] hover:text-[#f5f5f7] focus:ring-[#3a3a3c]',
     danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500',
     success: 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500',
   };
