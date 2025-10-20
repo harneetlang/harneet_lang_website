@@ -9,7 +9,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-gray-800 bg-black/50 backdrop-blur-sm">
+    <footer className="border-t border-[#2c2c2e] bg-[#131315]/90 backdrop-blur-lg">
       <div className="w-full max-w-6xl mx-auto px-6 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -18,7 +18,7 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <div className="flex flex-col items-center">
-            <p className="text-gray-400 mt-4 text-center">
+            <p className="text-[#aeaeb2] mt-4 text-center max-w-3xl">
               🎊 Harneet gives you 80% of Haskell's functional programming
               benefits with 50% of the complexity! It offers Haskell's
               functional programming power without the steep learning curve,
@@ -33,25 +33,26 @@ const Footer = () => {
                     onClick={() => handleLinkClick(label)}
                     className=""
                   >
-                    <Icon className="h-5 w-5 text-gray-400" />
+                    <Icon className="h-5 w-5 text-[#8e8e93] hover:text-[#f2f2f7] transition-colors" />
                   </button>
                 ),
               )}
             </div>
           </div>
-        </motion.div>
+        </motion.div
+>
 
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center"
+          className="border-t border-[#2c2c2e] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center"
         >
-          <p className="text-gray-400 text-sm">
+          <p className="text-[#8e8e93] text-sm">
             © {new Date().getFullYear()} Gagan Janjua. All rights reserved.
           </p>
-          <p className="text-gray-400 text-sm mt-4 md:mt-0">
+          <p className="text-[#8e8e93] text-sm mt-4 md:mt-0">
             Made with ❤️ for developers
           </p>
         </motion.div>

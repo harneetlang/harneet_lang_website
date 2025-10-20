@@ -178,23 +178,26 @@ const Videos = () => {
   }, [isModalOpen]);
 
   return (
-    <div className="pt-28 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div className="relative overflow-hidden bg-[#0d0d0f]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(82,82,84,0.14),transparent_55%),radial-gradient(circle_at_85%_10%,rgba(46,46,48,0.18),transparent_55%),linear-gradient(180deg,rgba(13,13,15,0.92),rgba(8,8,10,0.84))]"></div>
+      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(72,72,74,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(72,72,74,0.12)_1px,transparent_1px)] bg-[size:160px_160px]"></div>
+
+      <div className="relative z-10 pt-28 pb-24 px-4 sm:px-8 max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-12 relative"
+        className="text-center mb-14 relative"
       >
-        <div className="relative inline-block">
-          <h1 className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
-            Video Tutorials!
-          </h1>
+        <div className="mx-auto mb-6 flex max-w-sm items-center justify-center gap-3 rounded-full border border-[#3a3a3c] bg-[#1d1d1f]/80 px-4 py-2 text-xs uppercase tracking-[0.45em] text-slate-200">
+          <span className="inline-block h-2 w-2 rounded-full bg-[#8e8e93]"></span>
+          Video Library
         </div>
-        <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
-          <span className="relative z-10 bg-gradient-to-r from-gray-200 to-gray-300 bg-clip-text text-transparent">
-            Watch tutorials, talks, and showcases about Harneet
-          </span>
-          <span className="absolute -bottom-1 left-1/2 w-24 h-0.5 bg-gradient-to-r from-purple-500/0 via-purple-500 to-purple-500/0 -translate-x-1/2"></span>
+        <h1 className="text-4xl md:text-6xl font-bold text-slate-50">
+          Watch Harneet in motion
+        </h1>
+        <p className="mt-6 text-lg text-slate-300 max-w-3xl mx-auto">
+          Tutorials, walkthroughs, and runtime highlights curated for builders exploring Harneet.
         </p>
       </motion.div>
 
@@ -218,7 +221,7 @@ const Videos = () => {
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-3 border border-[#2c2c2e] rounded-xl bg-[#1d1d1f]/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#3a3a3c] focus:border-transparent"
             placeholder="Search videos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -245,16 +248,16 @@ const Videos = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
+      <div className="flex flex-wrap justify-center gap-2 mb-10">
         {videoCategories.map((category) => (
           <Button
             key={category.id}
             onClick={() => setActiveCategory(category.id)}
             variant={activeCategory === category.id ? "primary" : "ghost"}
-            className={`px-4 py-2 rounded-full transition-colors ${
+            className={`px-4 py-2 rounded-full transition-colors font-mono text-xs sm:text-sm ${
               activeCategory === category.id
-                ? "!bg-purple-600 hover:!bg-purple-700"
-                : "!bg-gray-800 hover:!bg-gray-700"
+                ? "bg-gradient-to-r from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f]"
+                : "!bg-[#1d1d1f]/80 !text-slate-300 border border-[#2c2c2e] hover:!bg-[#2c2c2e]"
             }`}
           >
             {category.name}
@@ -301,16 +304,12 @@ const Videos = () => {
               },
             }}
             viewport={{ once: true, margin: "-50px" }}
-            className="relative bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden cursor-pointer group"
-            style={{
-              boxShadow:
-                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-            }}
+            className="relative overflow-hidden rounded-2xl border border-[#2c2c2e] bg-[#1c1c1e]/80 backdrop-blur-sm cursor-pointer group shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
             onClick={() => openVideo(video)}
           >
             <motion.div
               className="relative aspect-video overflow-hidden"
-              style={{backgroundColor:"#000000"}}
+              style={{backgroundColor:"#010409"}}
               initial={{ scale: 1 }}
               animate={{
                 scale: [1, 1.01, 1],
@@ -334,7 +333,7 @@ const Videos = () => {
                 <motion.img
                   src={video.thumbnail}
                   alt={video.title}
-                  className="w-1/2 h-1/2 object-cover mx-auto"
+                  className="w-full h-full object-cover"
                   initial={{ scale: 1 }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
@@ -342,7 +341,7 @@ const Videos = () => {
               </motion.div>
 
               <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+                className="absolute inset-0 bg-gradient-to-t from-[#131315]/85 via-[#0d0d0f]/30 to-transparent"
                 initial={{ opacity: 0.6 }}
                 animate={{
                   opacity: [0.6, 0.7, 0.6],
@@ -371,7 +370,7 @@ const Videos = () => {
                   }}
                 >
                   <motion.div
-                    className="bg-purple-600 p-4 rounded-full"
+                    className="bg-gradient-to-br from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f] p-4 rounded-full shadow-[0_0_25px_rgba(0,0,0,0.35)]"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={(e) => {
@@ -384,7 +383,7 @@ const Videos = () => {
                 </motion.div>
               </motion.div>
               <motion.div
-                className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded"
+                className="absolute bottom-2 right-2 bg-black/70 text-slate-100 text-xs px-2 py-1 rounded"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.3 }}
@@ -394,7 +393,7 @@ const Videos = () => {
               </motion.div>
             </motion.div>
             <motion.div
-              className="p-4"
+              className="p-5 border-t border-slate-800/60"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.3 }}
@@ -402,31 +401,31 @@ const Videos = () => {
             >
               <div className="flex items-center justify-between mb-2">
                 <motion.span
-                  className="text-xs font-medium text-purple-400 uppercase tracking-wider"
+                  className="text-[11px] font-medium text-[#8e8e93] uppercase tracking-[0.35em]"
                   whileHover={{ color: "#d8b4fe" }}
                   transition={{ duration: 0.2 }}
                 >
                   {videoCategories.find((cat) => cat.id === video.category)
                     ?.name || video.category}
                 </motion.span>
-                <span className="text-xs text-gray-400">{video.date}</span>
+                <span className="text-xs text-slate-500">{video.date}</span>
               </div>
               <motion.h3
-                className="text-lg font-semibold text-white mb-1 line-clamp-2"
+                className="text-lg font-semibold text-slate-50 mb-1 line-clamp-2"
                 whileHover={{ color: "#e9d5ff" }}
                 transition={{ duration: 0.2 }}
               >
                 {video.title}
               </motion.h3>
               <motion.p
-                className="text-sm text-gray-400 line-clamp-2"
+                className="text-sm text-slate-400 line-clamp-2"
                 whileHover={{ color: "#d1d5db" }}
                 transition={{ duration: 0.2 }}
               >
                 {video.description}
               </motion.p>
               <motion.div
-                className="mt-3 flex items-center text-sm text-gray-400 group-hover:text-white transition-colors duration-200"
+                className="mt-4 flex items-center text-sm text-slate-400 group-hover:text-slate-100 transition-colors duration-200"
                 whileHover={{ x: 2 }}
                 transition={{ type: "spring", stiffness: 300, damping: 15 }}
               >
@@ -505,13 +504,13 @@ const Videos = () => {
       {/* Empty State */}
       {filteredVideos.length === 0 && (
         <div className="text-center py-12 w-full">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800/50 mb-4">
-            <Youtube className="h-8 w-8 text-gray-500" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-900/60 border border-slate-800/60 mb-4">
+            <Youtube className="h-8 w-8 text-slate-500" />
           </div>
-          <h3 className="text-xl font-medium text-gray-300 mb-2">
+          <h3 className="text-xl font-medium text-slate-200 mb-2">
             {searchQuery ? "No videos match your search" : "No videos found"}
           </h3>
-          <p className="text-gray-500 max-w-md mx-auto">
+          <p className="text-slate-500 max-w-md mx-auto">
             {searchQuery
               ? "Try adjusting your search or filter to find what you're looking for."
               : "We couldn't find any videos in this category. Check back later for new content!"}
@@ -535,14 +534,14 @@ const Videos = () => {
       <AnimatePresence>
         {isModalOpen && selectedVideo && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm modal-backdrop"
+            className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="relative w-full max-w-4xl mx-auto bg-gray-900 rounded-xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-4xl mx-4 overflow-hidden bg-[#1c1c1e]/95 border border-[#2c2c2e] rounded-2xl shadow-2xl"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -550,7 +549,7 @@ const Videos = () => {
             >
               <button
                 onClick={closeModal}
-                className="absolute right-4 top-4 z-10 p-2 rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors"
+                className="absolute -top-12 -right-12 w-32 h-32 bg-[#2c2c2e]/20 rounded-full blur-3xl"
                 aria-label="Close video"
               >
                 <X className="w-6 h-6 text-white" />
@@ -568,11 +567,11 @@ const Videos = () => {
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-100 mb-2">
                   {selectedVideo.title}
                 </h3>
-                <p className="text-gray-300">{selectedVideo.description}</p>
-                <div className="mt-4 flex items-center text-sm text-gray-400">
+                <p className="text-slate-300">{selectedVideo.description}</p>
+                <div className="inline-flex items-center gap-2 text-[#8e8e93] text-xs uppercase tracking-[0.35em]">
                   <a
                     href={`https://youtube.com/watch?v=${selectedVideo.videoId}`}
                     target="_blank"
@@ -591,6 +590,7 @@ const Videos = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   Zap,
-  Target,
   SmileIcon,
   BicepsFlexedIcon,
   BugIcon,
@@ -81,8 +80,11 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-28 px-6 relative">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="relative overflow-hidden bg-[#0d0d0f] py-28 px-6">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(82,82,84,0.14),transparent_60%),radial-gradient(circle_at_bottom_right,rgba(46,46,48,0.18),transparent_55%),linear-gradient(180deg,rgba(13,13,15,0.92),rgba(8,8,10,0.88))]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(72,72,74,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(72,72,74,0.12)_1px,transparent_1px)] bg-[size:160px_160px] opacity-50"></div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -90,21 +92,25 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-            Built for{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <div className="mx-auto mb-8 flex max-w-sm items-center justify-center gap-3 rounded-full border border-[#3a3a3c] bg-[#1d1d1f]/80 px-4 py-2 text-xs uppercase tracking-[0.45em] text-slate-200">
+            <span className="inline-block h-2 w-2 rounded-full bg-[#8e8e93]"></span>
+            Feature Highlights
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-50">
+            Built for {" "}
+            <span className="bg-gradient-to-r from-[#aeaeb2] via-[#8e8e93] to-[#636366] bg-clip-text text-transparent">
               modern teams
             </span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Harneet combines the power of a modern programming language with the
             simplicity you need in today's software world to get started. You
             should be working on your app, not figuring out borrow checkers and
-            async programming. <SmileIcon className="inline w-6 h-6 ml-1" />
+            async programming. <SmileIcon className="inline w-6 h-6 ml-1 text-[#8e8e93]" />
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -115,25 +121,27 @@ const Features = () => {
               whileHover={{ y: -5 }}
               className="group"
             >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800/80 rounded-xl p-8 h-full hover:border-gray-700 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex flex-col min-h-[320px]">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-500/30 transition-all duration-300">
-                    <feature.icon className="h-7 w-7 text-blue-400" />
+              <div className={`relative h-full overflow-hidden rounded-2xl border border-slate-800/70 ${index % 2 === 0 ? "bg-[#121214]" : "bg-[#101012]"} p-8 transition-all duration-300 group-hover:border-[#3a3a3c]/60`}>
+                <div className="absolute inset-x-0 -top-24 h-48 bg-gradient-to-b from-[#3a3a3c]/15 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
+                <div className="relative flex flex-col gap-6">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#1c1c1e] via-[#2c2c2e] to-[#1c1c1e] border border-[#3a3a3c]/70 shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+                      <feature.icon className="h-7 w-7 text-[#aeaeb2]" />
+                    </div>
+                    <h3 className="text-2xl font-semibold text-slate-50">{feature.title}</h3>
                   </div>
-                  <h3 className="text-xl font-bold mb-4 text-white">{feature.title}</h3>
-                </div>
-                <div className="flex-grow">
+                  <div className="h-px w-full bg-gradient-to-r from-slate-800 via-slate-700 to-transparent"></div>
                   {Array.isArray(feature.description) ? (
-                    <ul className="space-y-3">
+                    <ul className="space-y-3 text-sm text-slate-300">
                       {feature.description.map((item, index) => (
-                        <li key={index} className="text-gray-400 text-feature leading-relaxed flex items-start">
-                          <span className="text-blue-400 mr-3 mt-1 font-bold">•</span>
-                          <span className="flex-1 font-medium">{item.replace('→', '').trim()}</span>
+                        <li key={index} className="flex items-start gap-3">
+                          <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#8e8e93]"></span>
+                          <span className="flex-1 leading-relaxed font-medium">{item.replace('→', '').trim()}</span>
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-sm text-slate-300 leading-relaxed">
                       {feature.description}
                     </p>
                   )}
