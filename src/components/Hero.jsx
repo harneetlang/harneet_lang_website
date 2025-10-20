@@ -169,7 +169,7 @@ if resp.status == 200 {
                 <span className="font-mono">docs.harneetlang.com</span>
                 <span className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-                  Live preview
+                  Intro
                 </span>
               </div>
               <div className="relative aspect-video">
