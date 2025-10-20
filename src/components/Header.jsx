@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Github, Download, TerminalSquare } from "lucide-react";
+import { Github, Download } from "lucide-react";
+import LogoMark from "../assets/logos/ha.png";
 import Button from "./ui/Button";
 
 const Header = () => {
@@ -53,9 +54,9 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-4 text-lg font-semibold tracking-wider text-slate-100 hover:text-white transition-colors whitespace-nowrap"
             >
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-md bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-[0_18px_45px_RGBA(2,6,23,0.35)]">
-                <div className="absolute inset-[1px] rounded-[6px] border border-slate-700/60"></div>
-                <TerminalSquare className="h-5 w-5 text-slate-200" />
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-md bg-[linear-gradient(135deg,#2b2b2f,#151517)] shadow-[0_18px_45px_rgba(0,0,0,0.45)]">
+                <div className="absolute inset-[1px] rounded-[6px] border border-[#3a3a3c]/70 "></div>
+                <img src={LogoMark} alt="Harneet logo" className="h-8 w-8 object-contain" />
               </div>
               <span className="font-mono text-base uppercase tracking-[0.5em] text-slate-400">Harneet</span>
             </motion.div>
