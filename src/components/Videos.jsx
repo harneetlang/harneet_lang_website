@@ -154,14 +154,19 @@ const Videos = () => {
     setSelectedVideo(video);
     console.log(video.thumbnail);
     setIsModalOpen(true);
-    document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedVideo(null);
-    document.body.style.overflow = "unset"; // Re-enable scrolling
   };
+
+  useEffect(() => {
+    document.body.style.overflow = isModalOpen ? "hidden" : "unset";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
 
   // Close modal when clicking outside the content
   useEffect(() => {
@@ -534,52 +539,51 @@ const Videos = () => {
       <AnimatePresence>
         {isModalOpen && selectedVideo && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop"
+            className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            onClick={closeModal}
           >
             <motion.div
-              className="relative w-full max-w-4xl mx-4 overflow-hidden bg-[#1c1c1e]/95 border border-[#2c2c2e] rounded-2xl shadow-2xl"
+              className="relative w-[90vw] max-w-4xl bg-[#0d0d0f] rounded-2xl shadow-2xl border border-[#2c2c2e] overflow-hidden"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <button
-                onClick={closeModal}
-                className="absolute -top-12 -right-12 w-32 h-32 bg-[#2c2c2e]/20 rounded-full blur-3xl"
-                aria-label="Close video"
-              >
-                <X className="w-6 h-6 text-white" />
-              </button>
-
-              <div className="relative pt-[56.25%] w-full">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[#232325] bg-[#131315]/90">
+                <h2 className="text-lg font-semibold text-slate-100">{selectedVideo.title}</h2>
+                <button
+                  onClick={closeModal}
+                  className="text-slate-400 hover:text-slate-100 transition-colors"
+                  aria-label="Close video"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative aspect-video">
                 <iframe
+                  className="absolute inset-0 h-full w-full"
                   src={`https://www.youtube.com/embed/${selectedVideo.videoId}?autoplay=1`}
-                  className="absolute inset-0 w-full h-full"
+                  title={selectedVideo.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  title={selectedVideo.title}
-                />
+                ></iframe>
               </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-100 mb-2">
-                  {selectedVideo.title}
-                </h3>
-                <p className="text-slate-300">{selectedVideo.description}</p>
-                <div className="inline-flex items-center gap-2 text-[#8e8e93] text-xs uppercase tracking-[0.35em]">
+              <div className="p-6 space-y-3 bg-[#0d0d0f]">
+                <h3 className="text-xl font-semibold text-slate-100">{selectedVideo.title}</h3>
+                <p className="text-sm text-slate-400">{selectedVideo.description}</p>
+                <div className="text-xs text-slate-500 uppercase tracking-[0.35em]">{selectedVideo.date}</div>
+                <div className="flex items-center text-sm text-slate-300">
                   <a
-                    href={`https://youtube.com/watch?v=${selectedVideo.videoId}`}
+                    href={`https://www.youtube.com/watch?v=${selectedVideo.videoId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center hover:text-white transition-colors"
-                    onClick={(e) => e.stopPropagation()}
+                    className="text-[#f2e7c9] hover:text-[#fff2d6] transition-colors"
                   >
-                    <Youtube className="h-4 w-4 mr-1 text-red-500" />
                     Watch on YouTube
                   </a>
                   <span className="mx-2">•</span>
