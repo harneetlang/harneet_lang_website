@@ -1,41 +1,51 @@
-import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Download, Github, Code, Terminal, Package, GitBranch, FileText, ExternalLinkIcon } from 'lucide-react';
-import Button from './ui/Button';
-import { toast } from '../ui/use-toast';
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import {
+  Download,
+  Github,
+  Code,
+  Terminal,
+  Package,
+  GitBranch,
+  FileText,
+  ExternalLinkIcon,
+} from "lucide-react";
+import Button from "./ui/Button";
 
 const Downloads = () => {
-  const [activeTab, setActiveTab] = useState('binaries');
+  const [activeTab, setActiveTab] = useState("binaries");
+  const { downloadFile, isDownloading, error } = useDownloadFile();
+
+  const handleDownload = (downloadFileUrl, downloadFileName) => {
+    downloadFile(downloadFileUrl, downloadFileName);
+  };
+
+  
   const containerRef = useRef(null);
 
   const downloads = [
     {
       id: 1,
-      title: 'Harneet v1.0.0',
-      description: 'Stable Release - If you dont want to build!',
-      version: '1.0.0',
-      date: '2024-09-30',
+      title: "Harneet v1.0.0",
+      description: "Stable Release - If you dont want to build!",
+      version: "1.0.0",
+      date: "2024-09-30",
       downloads: [
-        { os: 'Windows', arch: 'x86_64', ext: 'exe', size: '12.4 MB' },
-        { os: 'macOS', arch: 'arm64', ext: 'dmg', size: '15.1 MB' },
-        { os: 'Linux', arch: 'x86_64', ext: 'tar.gz', size: '10.8 MB' },
+        { os: "Windows", arch: "x86_64", ext: "exe", size: "12.4 MB" },
+        { os: "macOS", arch: "arm64", ext: "dmg", size: "15.1 MB" },
+        { os: "Linux", arch: "x86_64", ext: "tar.gz", size: "10.8 MB" },
       ],
     },
   ];
 
   const getDownloadUrl = (os, version) => {
-    toast({
-      description:
-        "Thanks for expressing interest!. We are still creating final builds. These links will start working shortly. Apologies for the inconvenience caused!",
-    });
-    return;
-    const baseUrl = 'https://github.com/harneetlang/harneet/releases';
-    if (version === 'nightly') {
-      return `${baseUrl}/nightly`;
-    }
-    return `${baseUrl}/download/v${version}/harneet-${os}-${version}.${
-      os === 'windows' ? 'exe' : os === 'macos' ? 'dmg' : 'tar.gz'
-    }`;
+    const baseUrl = "https://github.com/harneetlang/harneet/releases";
+    const downloadFileName = `v${version}/harneet-${os}-${version}.${os === "windows" ? "exe" : os === "macos" ? "dmg" : "tar.gz"}`;
+    const downloadFileUrl = `${baseUrl}/download/${downloadFileName}`;
+
+    console.log("Download File Name → ", downloadFileName);
+    console.log("DownloadFileUrl → ", downloadFileUrl);
+    handleDownload(downloadFileUrl, downloadFileName);
   };
 
   return (
@@ -55,37 +65,41 @@ const Downloads = () => {
             Downloads
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-slate-50">
-            <span className="bg-gradient-to-r from-[#aeaeb2] via-[#8e8e93] to-[#636366] bg-clip-text text-transparent">get</span> Harneet
+            <span className="bg-gradient-to-r from-[#aeaeb2] via-[#8e8e93] to-[#636366] bg-clip-text text-transparent">
+              get
+            </span>{" "}
+            Harneet
           </h1>
           <p className="mt-6 text-lg text-slate-300 max-w-3xl mx-auto">
-            Choose your preferred method to get started with Harneet. Grab pre-built binaries or follow our source build guide.
+            Choose your preferred method to get started with Harneet. Grab
+            pre-built binaries or follow our source build guide.
           </p>
         </motion.div>
 
         <div className="flex justify-center mb-12">
           <div className="inline-flex rounded-full bg-[#1c1c1e]/80 p-1 border border-[#2c2c2e] shadow-[0_0_25px_rgba(0,0,0,0.35)]">
             <Button
-              onClick={() => setActiveTab('binaries')}
-              variant={activeTab === 'binaries' ? 'primary' : 'ghost'}
+              onClick={() => setActiveTab("binaries")}
+              variant={activeTab === "binaries" ? "primary" : "ghost"}
               size="md"
               icon={Package}
               className={`px-6 font-mono text-sm ${
-                activeTab !== 'binaries'
-                  ? '!bg-transparent !text-slate-300 hover:!bg-[#2c2c2e]'
-                  : 'bg-gradient-to-r from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f]'
+                activeTab !== "binaries"
+                  ? "!bg-transparent !text-slate-300 hover:!bg-[#2c2c2e]"
+                  : "bg-gradient-to-r from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f]"
               }`}
             >
               Pre-built Binaries
             </Button>
             <Button
-              onClick={() => setActiveTab('source')}
-              variant={activeTab === 'source' ? 'primary' : 'ghost'}
+              onClick={() => setActiveTab("source")}
+              variant={activeTab === "source" ? "primary" : "ghost"}
               size="md"
               icon={Code}
               className={`px-6 font-mono text-sm ${
-                activeTab !== 'source'
-                  ? '!bg-transparent !text-slate-300 hover:!bg-[#2c2c2e]'
-                  : 'bg-gradient-to-r from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f]'
+                activeTab !== "source"
+                  ? "!bg-transparent !text-slate-300 hover:!bg-[#2c2c2e]"
+                  : "bg-gradient-to-r from-[#2c2c2e] via-[#3a3a3c] to-[#1d1d1f]"
               }`}
             >
               Build from Source
@@ -93,7 +107,7 @@ const Downloads = () => {
           </div>
         </div>
 
-        {activeTab === 'binaries' && (
+        {activeTab === "binaries" && (
           <div className="space-y-8 max-w-4xl mx-auto">
             {downloads.map((release) => (
               <motion.div
@@ -108,8 +122,12 @@ const Downloads = () => {
                 <div className="p-6 border-b border-[#2c2c2e]">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
                     <div>
-                      <h2 className="text-xl font-semibold text-slate-50">{release.title}</h2>
-                      <p className="text-slate-400 mt-1">{release.description}</p>
+                      <h2 className="text-xl font-semibold text-slate-50">
+                        {release.title}
+                      </h2>
+                      <p className="text-slate-400 mt-1">
+                        {release.description}
+                      </p>
                     </div>
                     <div className="mt-4 md:mt-0 text-right">
                       <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-[#1d1d1f]/70 text-slate-300 border border-[#3a3a3c]/60">
@@ -120,20 +138,29 @@ const Downloads = () => {
                 </div>
                 <div className="divide-y divide-[#2c2c2e]">
                   {release.downloads.map((dl, idx) => (
-                    <div key={idx} className="p-6 transition-all duration-200 hover:bg-[#2c2c2e]/70">
+                    <div
+                      key={idx}
+                      className="p-6 transition-all duration-200 hover:bg-[#2c2c2e]/70"
+                    >
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                         <div className="flex items-center space-x-6">
                           <div className="p-2 rounded-lg bg-[#1d1d1f]/70 border border-[#2c2c2e]">
                             <Download className="h-6 w-6 text-[#8e8e93]" />
                           </div>
                           <div>
-                            <p className="font-medium text-slate-100 text-lg">{dl.os} ({dl.arch})</p>
-                            <p className="text-slate-400">.{dl.ext} • {dl.size}</p>
+                            <p className="font-medium text-slate-100 text-lg">
+                              {dl.os} ({dl.arch})
+                            </p>
+                            <p className="text-slate-400">
+                              .{dl.ext} • {dl.size}
+                            </p>
                           </div>
                         </div>
                         <Button
                           as="a"
-                          onClick={() => getDownloadUrl(dl.os.toLowerCase(), release.version)}
+                          onClick={() =>
+                            getDownloadUrl(dl.os.toLowerCase(), release.version)
+                          }
                           variant="primary"
                           size="sm"
                           icon={Download}
@@ -152,7 +179,7 @@ const Downloads = () => {
           </div>
         )}
 
-        {activeTab === 'source' && (
+        {activeTab === "source" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -162,8 +189,12 @@ const Downloads = () => {
             {/* Prerequisites */}
             <div className="rounded-2xl border border-[#2c2c2e] bg-[#1c1c1e]/80 backdrop-blur-sm overflow-hidden">
               <div className="p-6 border-b border-[#2c2c2e]">
-                <h2 className="text-xl font-semibold text-slate-50">Prerequisites</h2>
-                <p className="text-slate-400 mt-2">Make sure you have the following installed before proceeding:</p>
+                <h2 className="text-xl font-semibold text-slate-50">
+                  Prerequisites
+                </h2>
+                <p className="text-slate-400 mt-2">
+                  Make sure you have the following installed before proceeding:
+                </p>
               </div>
               <div className="p-6 space-y-4">
                 <div className="flex items-start space-x-4">
@@ -171,20 +202,41 @@ const Downloads = () => {
                     <Terminal className="h-5 w-5 text-[#8e8e93]" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-100">1. Install Just</h3>
+                    <h3 className="font-medium text-slate-100">
+                      1. Install Just
+                    </h3>
                     <p className="text-slate-400 text-sm">
-                      Just is a command runner that we use for builds and tests (similar to Make). For more on Just please see the official just documentation at the following link -
-                      <a href="https://just.systems/man/en/" className='relative text-[#8e8e93] font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-[#8e8e93] after:to-[#4a4a4c] after:transition-all after:duration-300 hover:after:w-full hover:text-[#aeaeb2]'> the official Just documentation. <ExternalLinkIcon className="inline w-4 h-4" /> </a>
+                      Just is a command runner that we use for builds and tests
+                      (similar to Make). For more on Just please see the
+                      official just documentation at the following link -
+                      <a
+                        href="https://just.systems/man/en/"
+                        className="relative text-[#8e8e93] font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-[#8e8e93] after:to-[#4a4a4c] after:transition-all after:duration-300 hover:after:w-full hover:text-[#aeaeb2]"
+                      >
+                        {" "}
+                        the official Just documentation.{" "}
+                        <ExternalLinkIcon className="inline w-4 h-4" />{" "}
+                      </a>
                     </p>
                     <div className="mt-2 border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                       <pre className="text-sm text-slate-300">
                         <code># macOS (using Homebrew)</code>
                         <code className="block">brew install just</code>
-                        <code className="block mt-2"># Linux (using your package manager)</code>
-                        <code className="block"># For Debian/Ubuntu: sudo apt install just</code>
-                        <code className="block"># For Fedora: sudo dnf install just</code>
-                        <code className='block mt-2'># Curl</code>
-                        <code className='block'>curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to DEST </code>
+                        <code className="block mt-2">
+                          # Linux (using your package manager)
+                        </code>
+                        <code className="block">
+                          # For Debian/Ubuntu: sudo apt install just
+                        </code>
+                        <code className="block">
+                          # For Fedora: sudo dnf install just
+                        </code>
+                        <code className="block mt-2"># Curl</code>
+                        <code className="block">
+                          curl --proto '=https' --tlsv1.2 -sSf
+                          https://just.systems/install.sh | bash -s -- --to
+                          DEST{" "}
+                        </code>
                       </pre>
                     </div>
                   </div>
@@ -195,13 +247,16 @@ const Downloads = () => {
                     <Code className="h-5 w-5 text-[#8e8e93]" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-100">2. Install Go</h3>
+                    <h3 className="font-medium text-slate-100">
+                      2. Install Go
+                    </h3>
                     <p className="text-slate-400 text-sm">
-                      Harneet is written in Go. Install the latest stable version from the official website.
+                      Harneet is written in Go. Install the latest stable
+                      version from the official website.
                     </p>
                     <div className="mt-2 border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg">
                       <Button
-                        onClick={() => window.open('https://golang.org/dl/')}
+                        onClick={() => window.open("https://golang.org/dl/")}
                         variant="secondary"
                         size="sm"
                         className="!bg-[#1d1d1f] !text-[#aeaeb2] hover:!bg-[#2c2c2e]"
@@ -219,16 +274,30 @@ const Downloads = () => {
                     <Package className="h-5 w-5 text-[#81e299]" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-100">3. Install Goreleaser (Optional, but recommended!)</h3>
+                    <h3 className="font-medium text-slate-100">
+                      3. Install Goreleaser (Optional, but recommended!)
+                    </h3>
                     <p className="text-slate-400 text-sm">
-                      Required if you plan to build release binaries. Also required to run the examples in an easy fashion! For more information on GoReleaser, please see <a href="https://goreleaser.com/quick-start/" className='relative text-[#8e8e93] font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-[#8e8e93] after:to-[#4a4a4c] after:transition-all after:duration-300 hover:after:w-full hover:text-[#aeaeb2]'> official GoReleaser documentation. <ExternalLinkIcon className="inline w-4 h-4" /> </a>
+                      Required if you plan to build release binaries. Also
+                      required to run the examples in an easy fashion! For more
+                      information on GoReleaser, please see{" "}
+                      <a
+                        href="https://goreleaser.com/quick-start/"
+                        className="relative text-[#8e8e93] font-medium no-underline after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-[#8e8e93] after:to-[#4a4a4c] after:transition-all after:duration-300 hover:after:w-full hover:text-[#aeaeb2]"
+                      >
+                        {" "}
+                        official GoReleaser documentation.{" "}
+                        <ExternalLinkIcon className="inline w-4 h-4" />{" "}
+                      </a>
                     </p>
                     <div className="mt-2 border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                       <pre className="text-sm text-slate-300">
                         <code># macOS (using Homebrew)</code>
                         <code className="block">brew install goreleaser</code>
                         <code className="block mt-2"># Using Go</code>
-                        <code className="block">go install github.com/goreleaser/goreleaser@latest</code>
+                        <code className="block">
+                          go install github.com/goreleaser/goreleaser@latest
+                        </code>
                       </pre>
                     </div>
                   </div>
@@ -239,8 +308,12 @@ const Downloads = () => {
             {/* Build Instructions */}
             <div className="rounded-2xl border border-[#2c2c2e] bg-[#1c1c1e]/80 backdrop-blur-sm overflow-hidden">
               <div className="p-6 border-b border-[#2c2c2e]">
-                <h2 className="text-xl font-semibold text-slate-50">Build from Source</h2>
-                <p className="text-slate-400 mt-2">Follow these steps to build Harneet from source:</p>
+                <h2 className="text-xl font-semibold text-slate-50">
+                  Build from Source
+                </h2>
+                <p className="text-slate-400 mt-2">
+                  Follow these steps to build Harneet from source:
+                </p>
               </div>
               <div className="p-6 space-y-6">
                 {/* Step 1 */}
@@ -249,12 +322,16 @@ const Downloads = () => {
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#2c2c2e]/40 text-[#d1d1d6] text-sm font-medium border border-[#3a3a3c]/60">
                       1
                     </div>
-                    <h3 className="font-medium text-slate-100">Clone the repository</h3>
+                    <h3 className="font-medium text-slate-100">
+                      Clone the repository
+                    </h3>
                   </div>
                   <div className="ml-11">
                     <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                       <pre className="text-sm text-slate-300">
-                        <code>git clone https://github.com/harneetlang/harneet.git</code>
+                        <code>
+                          git clone https://github.com/harneetlang/harneet.git
+                        </code>
                         <code className="block">cd harneet</code>
                       </pre>
                     </div>
@@ -267,7 +344,9 @@ const Downloads = () => {
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#2c2c2e]/40 text-[#d1d1d6] text-sm font-medium border border-[#3a3a3c]/60">
                       2
                     </div>
-                    <h3 className="font-medium text-slate-100">Install dependencies</h3>
+                    <h3 className="font-medium text-slate-100">
+                      Install dependencies
+                    </h3>
                   </div>
                   <div className="ml-11">
                     <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
@@ -284,45 +363,63 @@ const Downloads = () => {
                     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#2c2c2e]/40 text-[#d1d1d6] text-sm font-medium border border-[#3a3a3c]/60">
                       3
                     </div>
-                    <h3 className="font-medium text-slate-100">Build and Run</h3>
+                    <h3 className="font-medium text-slate-100">
+                      Build and Run
+                    </h3>
                   </div>
                   <div className="ml-11 space-y-4">
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-2">Build Harneet</h4>
+                      <h4 className="text-sm font-medium text-slate-300 mb-2">
+                        Build Harneet
+                      </h4>
                       <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                         <pre className="text-sm text-slate-300">
                           <code>just build</code>
-                          <code className="block text-gray-500"># This creates the 'harneet' executable</code>
+                          <code className="block text-gray-500">
+                            # This creates the 'harneet' executable
+                          </code>
                         </pre>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-2">Run Examples</h4>
+                      <h4 className="text-sm font-medium text-slate-300 mb-2">
+                        Run Examples
+                      </h4>
                       <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                         <pre className="text-sm text-slate-300">
                           <code>just test</code>
-                          <code className="block text-gray-500"># Run all the examples in the examples folder.</code>
+                          <code className="block text-gray-500">
+                            # Run all the examples in the examples folder.
+                          </code>
                         </pre>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-2">Start the REPL</h4>
+                      <h4 className="text-sm font-medium text-slate-300 mb-2">
+                        Start the REPL
+                      </h4>
                       <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                         <pre className="text-sm text-slate-300">
                           <code>just repl</code>
-                          <code className="block text-gray-500"># Type commands and see results immediately</code>
+                          <code className="block text-gray-500">
+                            # Type commands and see results immediately
+                          </code>
                         </pre>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-slate-300 mb-2">Run a program file</h4>
+                      <h4 className="text-sm font-medium text-slate-300 mb-2">
+                        Run a program file
+                      </h4>
                       <div className="border border-[#2c2c2e] bg-[#111112]/70 p-4 rounded-lg overflow-x-auto">
                         <pre className="text-sm text-slate-300">
                           <code>./harneet examples/hello.ha</code>
-                          <code className="block text-gray-500"># Runs code from a file (uses .ha extension)</code>
+                          <code className="block text-gray-500">
+                            # Runs code from a file (uses .ha extension)
+                          </code>
                         </pre>
                       </div>
                     </div>
@@ -341,7 +438,8 @@ const Downloads = () => {
                   <div>
                     <h3 className="font-medium text-slate-100">Contributing</h3>
                     <p className="text-slate-400 mt-1 text-sm">
-                      We welcome contributions! Check out our GitHub repository for more information on how to contribute to Harneet.
+                      We welcome contributions! Check out our GitHub repository
+                      for more information on how to contribute to Harneet.
                     </p>
                     <a
                       href="https://github.com/harneetlang/harneet"
@@ -363,26 +461,26 @@ const Downloads = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true, margin: "-50px" }}
           ref={containerRef}
           className="relative mt-16 p-6 rounded-2xl border border-[#2c2c2e] bg-[#1c1c1e]/80 backdrop-blur max-w-4xl mx-auto overflow-hidden"
-          style={{ position: 'relative', minHeight: '220px' }}
+          style={{ position: "relative", minHeight: "220px" }}
         >
           {/* Subtle grid overlay */}
           <motion.div
             className="absolute inset-0 opacity-20"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
-              backgroundSize: '30px 30px',
+                "linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)",
+              backgroundSize: "30px 30px",
             }}
             animate={{
-              backgroundPosition: ['0% 0%', '100% 100%'],
+              backgroundPosition: ["0% 0%", "100% 100%"],
             }}
             transition={{
               duration: 30,
               repeat: Infinity,
-              ease: 'linear',
+              ease: "linear",
             }}
           />
 
@@ -397,7 +495,7 @@ const Downloads = () => {
             transition={{
               duration: 20,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
             }}
           />
 
@@ -411,7 +509,7 @@ const Downloads = () => {
             transition={{
               duration: 25,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               delay: 5,
             }}
           />
@@ -425,16 +523,24 @@ const Downloads = () => {
             transition={{
               duration: 15,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
               delay: 2,
             }}
           />
           <div className="relative z-10 text-center">
-            <h3 className="text-xl font-semibold text-slate-100 mb-3">Need help?</h3>
+            <h3 className="text-xl font-semibold text-slate-100 mb-3">
+              Need help?
+            </h3>
             <p className="text-slate-400 mb-4">Check out our documentation.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button
-                onClick={() => window.open('https://docs.harneetlang.com', '_blank', 'noopener,noreferrer')}
+                onClick={() =>
+                  window.open(
+                    "https://docs.harneetlang.com",
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
+                }
                 variant="secondary"
                 size="md"
                 icon={FileText}
