@@ -1,3 +1,4 @@
+import {useState, useCallback}  from "react"
 const useDownloadFile = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,3 +46,5 @@ const useDownloadFile = () => {
 
   return { downloadFile, isDownloading, error };
 };
+
+export default useDownloadFile

@@ -11,6 +11,7 @@ import {
   ExternalLinkIcon,
 } from "lucide-react";
 import Button from "./ui/Button";
+import useDownloadFile from "../ui/hooks/useDownloadHook"
 
 const Downloads = () => {
   const [activeTab, setActiveTab] = useState("binaries");
