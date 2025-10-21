@@ -14,58 +14,166 @@ const Hero = () => {
         id: "assert",
         icon: TerminalSquare,
         label: "Assertions",
+        headers: "vi ~assert.ha",
         description: "Ensure expectations in your programs with expressive assertions.",
-        code: `import assert
+        code: `package main
+import assert, fmt
 
-fn greet(name: string) string {
-  return "Hello, ${name}!"
-}
+var result1, err1 = fmt.Println("Assert module is loaded!")
 
-let message = greet("Harneet")
-assert.equal(message, "Hello, Harneet!")
+// Test quick assertion
+var x = 10
+var result2, err2 = assert.Assert(x == 10)
+var result3, err3 = fmt.Println("Quick assertion test passed")
 
-// Assert with custom message
-assert.true(message.hasPrefix("Hello"), "Greeting must start with Hello")`
+// Test AssertEq
+var result4, err4 = assert.AssertEq("hello", "hello")
+var result5, err5 = fmt.Println("String equality test passed")
+
+var result6, err6 = fmt.Println("Assert module working correctly!")`
       },
       {
         id: "database",
         icon: Database,
         label: "Databases",
+        headers: "vi ~database.ha",
         description: "Connect and query relational stores using concise APIs.",
-        code: `import db/sql
+        code: `package main
+import fmt, db, file, os
 
-let conn = sql.open("postgres://user:pass@localhost:5432/app")
+const SQLITE_DB = "complete_example_db.db"
 
-try {
-  let rows = conn.query("SELECT id, name FROM users WHERE active = ?", true)
-  rows.each(fn(row) {
-    print("User", row.name)
-  })
-} finally {
-  conn.close()
-}`
-      },
+var closeConnection = (con) =>  {
+    fmt.Println("Will close the connecttion")
+    db.Close(con)
+    fmt.Println("connection was closed!")
+} 
+
+function main() {
+    //set up the datbase connection
+    //First if the sqlite database file exists in the current location
+
+    ok, err := file.Exists(SQLITE_DB)
+    if err != None {
+        fmt.Println ("File does not exist.")
+        os.Exit(1)
+    }     
+
+    if ok == false {
+        fmt.Println("File does not exist")
+        //now let us create the database file
+        var _, err = file.Touch(SQLITE_DB)
+        if err != None {
+            fmt.Println("Database file could not be created")
+            os.Exit(1)
+        } else {
+            fmt.Println("Datbase file was created")
+        }
+    } else {
+        fmt.Println("File exists")
+    
+    }
+
+    // we have validated that the database file exists. Now we can start the connection details
+    var con, err = db.Open("sqlite3", SQLITE_DB)
+
+    if err != None {
+        fmt.Println("Could not create a connecttion to the database. Error follows → ", err)
+        os.Exit(1)
+    } else {
+        fmt.Println("Was able to create a connection to the database")
+    }
+
+
+    // we are now able to connect to the database. Let us first check if the table exists.
+    var currentusertable, err = db.Query(con, "SELECT name FROM sqlite_master WHERE type='table' AND name='users'")
+    if err != None {
+        fmt.Println("There was an error reading from the database. The error is → ", err)
+        closeConnection(con)
+        os.Exit(1)
+    }
+
+    if 0 == len(currentusertable){
+        fmt.Println("user table does not exist. Will create the user table")
+        var _, createErr = db.Exec(con, "CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT UNIQUE NOT NULL, age INTEGER, created_at DATETIME DEFAULT CURRENT_TIMESTAMP )")
+
+        if createErr != None {
+            fmt.Printf("Create table error: %v\n", createErr)
+            closeConnection(con)
+            return
+        } else {
+            fmt.Println("User table created successfully")
+        }
+    } else {
+        fmt.Println("user table exists. Will proceed ahead")
+    }
+
+    //table exists. Now add some records.
+    var userData = {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "age": 30
+    }
+
+    var id, insertErr = db.Create(con, "users", userData)
+    if insertErr == None {
+        fmt.Printf("✅ Inserted user with ID: %d\n", id)
+    } else {
+        fmt.Println("Could not insert the record")
+        closeConnection(con)
+        os.Exit(1)
+    }
+
+    // will now validate that the user record was inserted
+    var users, queryErr = db.Query(con, "SELECT * FROM users")
+    if queryErr == None {
+        fmt.Printf("✅ Found %d users in the table\n", len(users))
+        for user in users {
+            fmt.Printf("  - %s (%s, age: %d)\n",
+                user.name, user.email, user.age)
+        }
+    } else {
+        fmt.Println("There was an error reading from the database , error → ", querryErr)
+    }
+}
+    
+`      },
       {
-        id: "async",
+        id: "concurrency",
         icon: Zap,
-        label: "Async",
+        label: "Concurrency",
+        headers: "vi ~async.ha",
         description: "Spawn lightweight tasks and await results with structured concurrency.",
-        code: `import runtime/async
+        code: `package main
+import fmt
 
-fn fetchUser(id: int) string {
-  // Pretend this hits a network resource
-  sleep(50ms)
-  return "User-" + id.toString()
+// Simple concurrency demo using do, await, and sleep
+// Spawns two tasks that finish in different times and collects their results
+
+function work(name string, ms int) string {
+    fmt.Printf("start %s\n", name)
+    sleep(ms)
+    fmt.Printf("done  %s\n", name)
+    return name
 }
 
-let tasks = [1,2,3].map(fn(id) { async.spawn(fn() { fetchUser(id) }) })
-let users = async.gather(tasks)
-print(users.join(", "))`
+fmt.Println("\n=== Concurrency Demo: do / await / sleep ===")
+
+var t1 = do work("A", 150)
+var t2 = do work("B", 60)
+
+var r2 = await(t2)
+var r1 = await(t1)
+
+fmt.Printf("Results: %s %s\n", r1, r2)
+fmt.Println("✅ Concurrency example complete!\n")
+`
       },
       {
         id: "api",
         icon: Cloud,
         label: "API Calls",
+        headers: "vi ~api.ha",
         description: "Read data from remote services with friendly HTTP helpers.",
         code: `import net/http
 import json
@@ -141,17 +249,6 @@ if resp.status == 200 {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                {["Simple syntax", "Runtime ready", "Community examples", "Docs you can skim"].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 rounded-lg border border-[#232325] bg-[#111112]/90 px-4 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#e5e5ea]"
-                  >
-                    <span className="h-2 w-2 rounded-full bg-[#8e8e93]"></span>
-                    {item}
-                  </div>
-                ))}
-              </div>
             </motion.div>
           </motion.div>
 
@@ -204,15 +301,25 @@ if resp.status == 200 {
             </div>
           </motion.div>
         </div>
-
+        <div className="grid gap-4 sm:grid-cols-4">
+          {["Simple syntax", "Runtime ready", "Community examples", "Linter + Autoformat"].map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-3 rounded-lg border border-[#232325] bg-[#111112]/90 px-4 py-3 font-mono text-xs uppercase tracking-[0.3em] text-[#e5e5ea]"
+            >
+              <span className="h-2 w-2 rounded-full bg-[#8e8e93]"></span>
+              {item}
+            </div>
+          ))}
+        </div>
         <div className="space-y-6 border-t border-slate-800/70 pt-10" id="syntax_runtime_tooling">
-          <div className="flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.35em] text-slate-600">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-[11px] uppercase tracking-[0.35em] text-[#8e8e93]">
             <div className="flex items-center gap-3">
               <span className="h-1 w-16 rounded-full bg-gradient-to-r from-[#434346] to-[#1d1d1f]"></span>
               <span>Harneet</span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="h-1 w-16 rounded-full bg-gradient-to-r from-slate-500 to-slate-700"></span>
+              <span className="h-1 w-16 rounded-full bg-gradient-to-r from-[#434346] to-[#1d1d1f]"></span>
               <span>Syntax • Runtime • Tooling</span>
             </div>
             <div className="flex items-center gap-3">
@@ -222,30 +329,31 @@ if resp.status == 200 {
           </div>
 
           <div className="rounded-2xl border border-[#2c2c2e] bg-[#131315]/85 p-6 backdrop-blur-sm">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:items-start">
               <div>
                 <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8e8e93]">Examples</p>
                 <h3 className="mt-2 text-xl font-semibold text-slate-100">Build with confidence and clarity</h3>
               </div>
-              <div className="flex shrink-0 gap-2 rounded-full border border-[#2c2c2e] bg-[#1d1d1f]/80 p-1">
-                {codeTabs.map((tab) => {
-                  const Icon = tab.icon;
-                  const isActive = tab.id === activeTab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab)}
-                      className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-mono uppercase tracking-[0.2em] transition-all duration-200 ${
-                        isActive
-                          ? 'bg-[linear-gradient(135deg,#2b2b2f,#151517)] text-[#f5f5f7] shadow-[0_12px_28px_rgba(0,0,0,0.45)]'
-                          : 'text-[#8e8e93] hover:text-[#d1d1d6] hover:bg-[#1d1d1f]'
-                      }`}
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                      {tab.label}
-                    </button>
-                  );
-                })}
+              <div className="flex w-full justify-start lg:justify-end">
+                <div className="flex w-full gap-2 rounded-full border border-[#2c2c2e] bg-[#1d1d1f]/80 p-1">
+                  {codeTabs.map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = tab.id === activeTab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab)}
+                        className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-mono uppercase tracking-[0.2em] transition-all duration-200 ${isActive
+                            ? 'bg-[linear-gradient(135deg,#2b2b2f,#151517)] text-[#f5f5f7] shadow-[0_12px_28px_rgba(0,0,0,0.45)]'
+                            : 'text-[#8e8e93] hover:text-[#d1d1d6] hover:bg-[#1d1d1f]'
+                          }`}
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
@@ -275,7 +383,7 @@ if resp.status == 200 {
                     <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]"></span>
                     <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
                   </div>
-                  <span className="text-xs font-medium tracking-[0.24em] uppercase text-[#8e8e93]">{activeTab.label}</span>
+                  <span className="text-xs font-medium tracking-[0.24em]  text-[#8e8e93]">{activeTab.headers}</span>
                   <div className="w-10" />
                 </div>
                 <pre className="relative overflow-x-auto overflow-y-auto px-5 py-10 text-sm leading-relaxed text-[#f5f5f7]/90 h-[320px]">
