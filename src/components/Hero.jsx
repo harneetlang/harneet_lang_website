@@ -175,17 +175,21 @@ fmt.Println("✅ Concurrency example complete!\n")
         label: "API Calls",
         headers: "vi ~api.ha",
         description: "Read data from remote services with friendly HTTP helpers.",
-        code: `import net/http
-import json
+        code: `package main
+import fmt
+import http
 
-let resp = http.get("https://api.harneet.dev/articles/latest")
+var getResponse, getErr = http.Get("https://jsonplaceholder.typicode.com/todos/1")
 
-if resp.status == 200 {
-  let article = json.decode(resp.body)
-  print("Latest article:", article.title)
+if getErr != None {
+    fmt.Printf("Error: %s\n", getErr)
 } else {
-  print("Failed to fetch latest article", resp.status)
-}`
+    fmt.Println("Entire Response → ", getResponse)
+    fmt.Println("Response Body → " , getResponse.body)
+    fmt.Println("Status → ", getResponse.status)
+}
+
+`
       }
     ],
     []
