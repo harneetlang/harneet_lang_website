@@ -11,7 +11,7 @@ import {
   ExternalLinkIcon,
 } from "lucide-react";
 import Button from "./ui/Button";
-import useDownloadFile from "../ui/hooks/useDownloadHook"
+import useDownloadFile from "../ui/hooks/useDownloadHook";
 
 const Downloads = () => {
   const [activeTab, setActiveTab] = useState("binaries");
@@ -21,28 +21,36 @@ const Downloads = () => {
     downloadFile(downloadFileUrl, downloadFileName);
   };
 
-  
   const containerRef = useRef(null);
+  const Version = "4.1.1";
 
   const downloads = [
     {
       id: 1,
-      title: "Harneet v1.0.0",
-      description: "Stable Release - If you dont want to build!",
-      version: "1.0.0",
-      date: "2024-09-30",
+      title: `Harneet v${Version}`,
+      description: "Early Alpha Release - If you dont want to build!",
+      version: Version,
+      date: "2025-10-20",
       downloads: [
-        { os: "Windows", arch: "x86_64", ext: "exe", size: "12.4 MB" },
-        { os: "macOS", arch: "arm64", ext: "dmg", size: "15.1 MB" },
-        { os: "Linux", arch: "x86_64", ext: "tar.gz", size: "10.8 MB" },
+        { os: "macOS", arch: "amd64", ext: "tar.gz", size: "6.05 MB" },
+        { os: "macOS", arch: "arm64", ext: "tar.gz", size: "5.64 MB" },
+        { os: "Linux", arch: "386", ext: "tar.gz", size: "5.59 MB" },
+        { os: "Linux", arch: "amd64", ext: "tar.gz", size: "5.96 MB" },
+        { os: "Linux", arch: "arm64", ext: "tar.gz", size: "5.44 MB" },
+        { os: "Windows", arch: "amd64", ext: "tar.gz", size: "6.12 MB" },
+       
       ],
     },
   ];
 
-  const getDownloadUrl = (os, version) => {
-    const baseUrl = "https://github.com/harneetlang/harneet/releases";
-    const downloadFileName = `v${version}/harneet-${os}-${version}.${os === "windows" ? "exe" : os === "macos" ? "dmg" : "tar.gz"}`;
-    const downloadFileUrl = `${baseUrl}/download/${downloadFileName}`;
+  const getDownloadUrl = (os, version, arch, extension) => {
+    const baseUrl = "/assets/4.1.1";
+    let OS = "windows";
+    if (os.toLowerCase() === "macos") {
+      OS = "darwin";
+    } else OS = os;
+    const downloadFileName = `harneet_${version}_${OS}_${arch}.${extension}`;
+    const downloadFileUrl = `${baseUrl}/${downloadFileName}`;
 
     console.log("Download File Name → ", downloadFileName);
     console.log("DownloadFileUrl → ", downloadFileUrl);
@@ -160,7 +168,12 @@ const Downloads = () => {
                         <Button
                           as="a"
                           onClick={() =>
-                            getDownloadUrl(dl.os.toLowerCase(), release.version)
+                            getDownloadUrl(
+                              dl.os.toLowerCase(),
+                              release.version,
+                              dl.arch,
+                              dl.ext
+                            )
                           }
                           variant="primary"
                           size="sm"
