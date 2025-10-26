@@ -338,8 +338,9 @@ if getErr != None {
                 <p className="text-xs font-mono uppercase tracking-[0.35em] text-[#8e8e93]">Examples</p>
                 <h3 className="mt-2 text-xl font-semibold text-slate-100">Build with confidence and clarity</h3>
               </div>
-              <div className="flex w-full justify-start lg:justify-end">
-                <div className="flex w-full gap-2 rounded-full border border-[#2c2c2e] bg-[#1d1d1f]/80 p-1">
+              <div className="w-full overflow-x-auto pb-2 -mx-1 px-1">
+                <div className="flex w-max min-w-full justify-start lg:justify-end">
+                  <div className="flex gap-2 rounded-full border border-[#2c2c2e] bg-[#1d1d1f]/80 p-1">
                   {codeTabs.map((tab) => {
                     const Icon = tab.icon;
                     const isActive = tab.id === activeTab.id;
@@ -357,6 +358,7 @@ if getErr != None {
                       </button>
                     );
                   })}
+                  </div>
                 </div>
               </div>
             </div>
