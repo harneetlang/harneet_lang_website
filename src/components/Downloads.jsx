@@ -22,7 +22,7 @@ const Downloads = () => {
   };
 
   const containerRef = useRef(null);
-  const Version = "4.1.1";
+  const Version = "4.6.0";
 
   const downloads = [
     {
@@ -32,19 +32,19 @@ const Downloads = () => {
       version: Version,
       date: "2025-10-20",
       downloads: [
-        { os: "macOS", arch: "amd64", ext: "tar.gz", size: "6.05 MB" },
-        { os: "macOS", arch: "arm64", ext: "tar.gz", size: "5.64 MB" },
-        { os: "Linux", arch: "386", ext: "tar.gz", size: "5.59 MB" },
-        { os: "Linux", arch: "amd64", ext: "tar.gz", size: "5.96 MB" },
-        { os: "Linux", arch: "arm64", ext: "tar.gz", size: "5.44 MB" },
-        { os: "Windows", arch: "amd64", ext: "tar.gz", size: "6.12 MB" },
+        { os: "macOS", arch: "amd64", ext: "tar.gz", size: "6.57 MB" },
+        { os: "macOS", arch: "arm64", ext: "tar.gz", size: "6.15 MB" },
+        { os: "Linux", arch: "386", ext: "tar.gz", size: "6.09 MB" },
+        { os: "Linux", arch: "amd64", ext: "tar.gz", size: "6.47 MB" },
+        { os: "Linux", arch: "arm64", ext: "tar.gz", size: "5.93 MB" },
+        { os: "Windows", arch: "amd64", ext: "tar.gz", size: "6.63 MB" },
        
       ],
     },
   ];
 
   const getDownloadUrl = (os, version, arch, extension) => {
-    const baseUrl = "/assets/4.1.1";
+    const baseUrl = "/assets/"+Version;
     let OS = "windows";
     if (os.toLowerCase() === "macos") {
       OS = "darwin";
