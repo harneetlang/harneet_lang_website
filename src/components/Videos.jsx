@@ -6,6 +6,7 @@ import ArrowFunctions from "../assets/thumbnails/arrow_functions.png";
 import ReplImage from "../assets/thumbnails/repl.png";
 import NestedFunctions from "../assets/thumbnails/nested_functions.png";
 import FunctionComposition from "../assets/thumbnails/function_composition.png";
+import EnumsImage from "../assets/thumbnails/enums.png"
 import DB from "../assets/thumbnails/db.png";
 import OS from "../assets/thumbnails/OS.png";
 import Webserver from "../assets/thumbnails/webserver.png";
@@ -80,13 +81,13 @@ const Videos = () => {
     },
     {
       id: 6,
-      title: "OS",
-      description: "Learn to use the OS library",
+      title: "Enums",
+      description: "Enums + Pattern matching + Default Parameters",
       category: "tutorials",
-      thumbnail: OS,
-      videoId: "dQw4w9WgXcQ",
-      duration: "24:15",
-      date: "2024-10-02",
+      thumbnail: EnumsImage,
+      videoId: "5EHXrc_kS8I",
+      duration: "16:00",
+      date: "2025-12-08",
     },
     {
       id: 7,
