@@ -61,7 +61,7 @@ const Features = () => {
       title: "Type Safety Meets Flexibility",
       description: [
         "Strict, compile-time type checking",
-        "`any` type for controlled flexibility",
+        "Expressive type system",
         "Zero-cost abstractions",
         "Built for real-world applications"
       ],
