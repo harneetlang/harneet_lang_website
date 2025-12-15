@@ -1,7 +1,225 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Database, TerminalSquare, Zap, Cloud } from "lucide-react";
 import Button from "./ui/Button";
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
+// Map Tree-sitter node types to CSS classes
+function getClassForType(type) {
+  const typeMap = {
+    // Keywords
+    package: "text-purple-400 font-semibold",
+    import: "text-purple-400 font-semibold",
+    function: "text-purple-400 font-semibold",
+    var: "text-purple-400 font-semibold",
+    const: "text-purple-400 font-semibold",
+    if: "text-purple-400 font-semibold",
+    else: "text-purple-400 font-semibold",
+    for: "text-purple-400 font-semibold",
+    return: "text-purple-400 font-semibold",
+    do: "text-purple-400 font-semibold",
+    await: "text-purple-400 font-semibold",
+    in: "text-purple-400 font-semibold",
+
+    // Comments
+    comment: "text-gray-500 italic",
+    line_comment: "text-gray-500 italic",
+    block_comment: "text-gray-500 italic",
+
+    // Strings
+    string: "text-green-400",
+    string_literal: "text-green-400",
+    interpreted_string_literal: "text-green-400",
+
+    // Numbers
+    number: "text-orange-400",
+    int_literal: "text-orange-400",
+    float_literal: "text-orange-400",
+
+    // Functions
+    function_declaration: "text-yellow-300",
+    function_name: "text-yellow-300",
+    call_expression: "text-yellow-300",
+
+    // Identifiers (will be enhanced contextually)
+    identifier: "text-slate-200",
+    field_identifier: "text-cyan-300",
+
+    // Punctuation
+    ".": "text-slate-400",
+    ",": "text-slate-400",
+    "(": "text-slate-300",
+    ")": "text-slate-300",
+    "{": "text-slate-300",
+    "}": "text-slate-300",
+
+    // Operators
+    operator: "text-pink-400",
+    "=": "text-pink-400",
+    "==": "text-pink-400",
+    "!=": "text-pink-400",
+    "+": "text-pink-400",
+    "-": "text-pink-400",
+    "*": "text-pink-400",
+    "/": "text-pink-400",
+
+    // Types
+    type: "text-cyan-400",
+    type_identifier: "text-cyan-400",
+
+    // Boolean/None
+    true: "text-blue-400",
+    false: "text-blue-400",
+    None: "text-blue-400",
+  };
+
+  return typeMap[type] || "text-slate-300";
+}
+
+// Known module/package names that should be colored as modules
+const MODULE_NAMES = new Set(["fmt", "db", "file", "os", "http", "assert", "math", "strings", "time"]);
+
+// Known function names that should be colored as functions
+const FUNCTION_NAMES = new Set([
+  "Println", "Printf", "Print", "Sprintf",
+  "Open", "Close", "Query", "Exec", "Create",
+  "Exists", "Touch", "Read", "Write",
+  "Get", "Post", "Put", "Delete",
+  "Assert", "AssertEq", "AssertIsOfType",
+  "Exit", "Sleep", "sleep",
+  "len", "append", "make", "new",
+  "main", "work"
+]);
+
+// Function to generate highlighted HTML from the parse tree
+function generateHighlightedHTML(sourceCode, tree) {
+  const highlights = [];
+
+  // Walk through the syntax tree and collect highlighting info
+  function walk(node) {
+    const nodeText = sourceCode.slice(node.startIndex, node.endIndex);
+
+    if (nodeText && nodeText.trim()) {
+      if (node.childCount === 0 || shouldHighlightAsWhole(node)) {
+        highlights.push({
+          start: node.startIndex,
+          end: node.endIndex,
+          type: node.type,
+          text: nodeText,
+        });
+        return;
+      }
+    }
+
+    for (let i = 0; i < node.childCount; i++) {
+      const child = node.child(i);
+      if (child) walk(child);
+    }
+  }
+
+  // Determine if a node should be highlighted as a single unit
+  function shouldHighlightAsWhole(node) {
+    const wholeNodeTypes = [
+      "comment",
+      "line_comment",
+      "block_comment",
+      "string",
+      "string_literal",
+      "interpreted_string_literal",
+      "number",
+      "int_literal",
+      "float_literal",
+      "true",
+      "false",
+      "None",
+    ];
+    return wholeNodeTypes.includes(node.type);
+  }
+
+  walk(tree.rootNode);
+
+  // Debug: log unique node types to help with mapping
+  const uniqueTypes = [...new Set(highlights.map(h => h.type))];
+
+  // Sort by position and remove overlaps
+  highlights.sort((a, b) => a.start - b.start);
+
+  // Remove overlapping highlights (keep parent nodes)
+  const filtered = [];
+  for (let i = 0; i < highlights.length; i++) {
+    const current = highlights[i];
+    const next = highlights[i + 1];
+
+    // Skip if next highlight is contained within current (overlap)
+    if (next && next.start < current.end) {
+      continue;
+    }
+
+    filtered.push(current);
+  }
+
+  // Build HTML with spans for each token
+  let html = "";
+  let lastIndex = 0;
+
+  for (let i = 0; i < filtered.length; i++) {
+    const highlight = filtered[i];
+    const prevHighlight = filtered[i - 1];
+    const nextHighlight = filtered[i + 1];
+
+    // Add any text before this highlight
+    if (highlight.start > lastIndex) {
+      html += escapeHtml(sourceCode.slice(lastIndex, highlight.start));
+    }
+
+    // Determine CSS class with contextual awareness
+    let cssClass = getClassForType(highlight.type);
+
+    // If this is an identifier, check if it's a module or function name
+    if (highlight.type === "identifier") {
+      const text = highlight.text;
+      
+      // Check if it's a known module name (like fmt, db, os)
+      if (MODULE_NAMES.has(text)) {
+        cssClass = "text-cyan-400";
+      }
+      // Check if it's a known function name (like Println, Printf)
+      else if (FUNCTION_NAMES.has(text)) {
+        cssClass = "text-yellow-300";
+      }
+      // Check if previous token was a dot (method call like .Println)
+      else if (prevHighlight && prevHighlight.type === ".") {
+        cssClass = "text-yellow-300";
+      }
+      // Check if next token is a paren (function call like main())
+      else if (nextHighlight && nextHighlight.type === "(") {
+        cssClass = "text-yellow-300";
+      }
+    }
+
+    html += `<span class="${cssClass}">${escapeHtml(highlight.text)}</span>`;
+
+    lastIndex = highlight.end;
+  }
+
+  // Add any remaining text
+  if (lastIndex < sourceCode.length) {
+    html += escapeHtml(sourceCode.slice(lastIndex));
+  }
+
+  return html;
+}
 
 const Hero = () => {
   const handleButtonClick = () => {
@@ -123,7 +341,7 @@ function main() {
 
     var id, insertErr = db.Create(con, "users", userData)
     if insertErr == None {
-        fmt.Printf("✅ Inserted user with ID: %d\n", id)
+        fmt.Printf("Inserted user with ID: %d\n", id)
     } else {
         fmt.Println("Could not insert the record")
         closeConnection(con)
@@ -133,7 +351,7 @@ function main() {
     // will now validate that the user record was inserted
     var users, queryErr = db.Query(con, "SELECT * FROM users")
     if queryErr == None {
-        fmt.Printf("✅ Found %d users in the table\n", len(users))
+        fmt.Printf("Found %d users in the table\n", len(users))
         for user in users {
             fmt.Printf("  - %s (%s, age: %d)\n",
             user.name, user.email, user.age)
@@ -175,7 +393,7 @@ function main() {
     var r1 = await(t1)
 
     fmt.Printf("Results: %s %s\n", r1, r2)
-    fmt.Println("✅ Concurrency example complete!\n")
+    fmt.Println("Concurrency example complete!\n")
 
 } `,
       },
@@ -210,6 +428,57 @@ function main() {
   );
 
   const [activeTab, setActiveTab] = useState(codeTabs[0]);
+  const [highlightedCode, setHighlightedCode] = useState("");
+  const [parser, setParser] = useState(null);
+
+  // Initialize Tree-sitter parser once
+  useEffect(() => {
+    async function initParser() {
+      try {
+        // Dynamically import Parser and Language (named exports in web-tree-sitter v0.26+)
+        const { Parser, Language } = await import("web-tree-sitter");
+
+        // Initialize Parser with runtime wasm from public/
+        await Parser.init({
+          locateFile(scriptName) {
+            return "/web-tree-sitter.wasm";
+          },
+        });
+
+        // Create a new parser instance
+        const newParser = new Parser();
+
+        // Load your language WASM file
+        const Lang = await Language.load("/highlight.wasm");
+        newParser.setLanguage(Lang);
+
+        console.log("Parser initialized successfully!", newParser);
+        setParser(newParser);
+      } catch (error) {
+        console.error("Failed to initialize parser:", error);
+      }
+    }
+
+    initParser();
+  }, []);
+
+  // Highlight code whenever activeTab changes
+  useEffect(() => {
+    if (!parser || !activeTab.code) {
+      setHighlightedCode(escapeHtml(activeTab.code));
+      return;
+    }
+
+    try {
+      const tree = parser.parse(activeTab.code);
+      const highlighted = generateHighlightedHTML(activeTab.code, tree);
+      setHighlightedCode(highlighted);
+    } catch (error) {
+      console.error("Failed to highlight code:", error);
+      // Fallback to escaped plain text
+      setHighlightedCode(escapeHtml(activeTab.code));
+    }
+  }, [parser, activeTab]);
 
   return (
     <section className="relative overflow-hidden bg-[#0b0b0d]">
@@ -420,13 +689,13 @@ function main() {
                     <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]"></span>
                     <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
                   </div>
-                  <span className="text-xs font-medium tracking-[0.24em]  text-[#8e8e93]">
+                  <span className="text-xs font-medium tracking-[0.24em] text-[#8e8e93]">
                     {activeTab.headers}
                   </span>
                   <div className="w-10" />
                 </div>
                 <pre className="relative overflow-x-auto overflow-y-auto px-5 py-10 text-sm leading-relaxed text-[#f5f5f7]/90 h-[320px]">
-                  <code>{activeTab.code}</code>
+                  <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
                 </pre>
               </div>
             </div>
